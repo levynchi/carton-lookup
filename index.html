@@ -62,7 +62,7 @@
   .box { flex: 1; background: rgba(255,255,255,.75); border-radius: 14px; padding: 12px 10px; text-align: center; }
   .box .lbl { font-size: 12px; color: var(--muted); }
   .box .val { font-size: 30px; font-weight: 800; margin-top: 2px; direction: ltr; }
-  .box.size .val { font-size: 40px; }
+  .box.size .val { font-size: 48px; }
   .model-name { margin-top: 14px; background: rgba(255,255,255,.75); border-radius: 14px; padding: 12px 14px; }
   .model-name .lbl { font-size: 12px; color: var(--muted); }
   .model-name .val { font-size: 22px; font-weight: 800; margin-top: 2px; }
@@ -104,7 +104,7 @@
   <details id="ranges">
     <summary>טבלת טווחים - איזה קרטונים שייכים למי</summary>
     <table>
-      <thead><tr><th>קרטונים</th><th>דגם</th><th>מידה</th><th>קרטונים</th><th>יחידות</th></tr></thead>
+      <thead><tr><th>קרטונים</th><th>דגם</th><th>מידה</th><th>כמות</th></tr></thead>
       <tbody id="ranges-body"></tbody>
     </table>
   </details>
@@ -127,31 +127,28 @@
   function brandLabel(b) { return DATA.brands[b] || b; }
   function modelCode(m) { return String(m).padStart(3, '0'); }
   function modelName(m) { return DATA.models[String(m)] || ''; }
-  function fmt(n) { return Number(n).toLocaleString('he-IL'); }
-
   var input = document.getElementById('q');
   var search = document.getElementById('search');
   var card = document.getElementById('card');
   var hint = document.getElementById('hint');
+  var debounceTimer = null;
+  var DEBOUNCE_MS = 550;
 
   document.getElementById('meta').textContent = 'עודכן ' + DATA.updated + ' · ' + DATA.cartons.length + ' קרטונים (' + minNo + 'X–' + maxNo + 'X)';
   document.getElementById('footer').textContent = 'מקור: ' + DATA.source;
-  hint.textContent = 'אפשר להקליד 45 או 45X - התוצאה מופיעה מיד';
+  hint.textContent = 'אחרי ההקלדה השדה מתנקה — אפשר להקליד מספר חדש';
 
   function parseNo(raw) {
     var digits = String(raw || '').replace(/\D/g, '');
     return digits ? parseInt(digits, 10) : null;
   }
 
-  function render() {
-    var raw = input.value;
-    search.classList.toggle('has-value', raw.trim().length > 0);
-    var n = parseNo(raw);
-    if (n === null) {
-      card.className = 'card';
-      card.innerHTML = '';
-      return;
-    }
+  function syncClearBtn() {
+    search.classList.toggle('has-value', input.value.trim().length > 0);
+  }
+
+  function showCard(n) {
+    if (n === null) return;
     var c = byNo[n];
     if (!c) {
       card.className = 'card missing show';
@@ -169,25 +166,50 @@
       '<div class="model-name"><div class="lbl">דגם</div><div class="val">' + modelName(c.model) + '</div>' + tags + '</div>' +
       '<div class="row">' +
         '<div class="box size"><div class="lbl">מידה</div><div class="val">' + c.size + '</div></div>' +
-        '<div class="box"><div class="lbl">יחידות</div><div class="val">' + fmt(c.pieces) + '</div></div>' +
-        '<div class="box"><div class="lbl">חבילות</div><div class="val">' + fmt(c.packets) + '</div></div>' +
       '</div>';
   }
 
-  input.addEventListener('input', render);
-  input.addEventListener('keydown', function (e) { if (e.key === 'Enter') input.blur(); });
+  function clearInputKeepCard() {
+    input.value = '';
+    syncClearBtn();
+    input.focus();
+  }
+
+  function scheduleClear() {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(clearInputKeepCard, DEBOUNCE_MS);
+  }
+
+  function onType() {
+    syncClearBtn();
+    var n = parseNo(input.value);
+    if (n === null) return;
+    showCard(n);
+    scheduleClear();
+  }
+
+  input.addEventListener('input', onType);
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      var n = parseNo(input.value);
+      if (n !== null) showCard(n);
+      clearTimeout(debounceTimer);
+      clearInputKeepCard();
+    }
+  });
   document.getElementById('clear').addEventListener('click', function () {
-    input.value = ''; render(); input.focus();
+    clearTimeout(debounceTimer);
+    clearInputKeepCard();
   });
 
-  // ranges table, grouped by brand
   var body = document.getElementById('ranges-body');
   var lastBrand = null;
   var html = '';
   DATA.ranges.forEach(function (r) {
     var cls = brandClass(r.brand);
     if (r.brand !== lastBrand) {
-      html += '<tr class="brand-head ' + cls + '"><td colspan="5">' + brandLabel(r.brand) + '</td></tr>';
+      html += '<tr class="brand-head ' + cls + '"><td colspan="4">' + brandLabel(r.brand) + '</td></tr>';
       lastBrand = r.brand;
     }
     var span = r.from === r.to ? (r.from + 'X') : (r.from + 'X–' + r.to + 'X');
@@ -195,21 +217,21 @@
       '<td class="num">' + span + '</td>' +
       '<td>' + modelCode(r.model) + ' ' + modelName(r.model) + '</td>' +
       '<td class="num">' + r.size + '</td>' +
-      '<td class="num">' + r.cartons + '</td>' +
-      '<td class="num">' + fmt(r.pieces) + '</td></tr>';
+      '<td class="num">' + r.cartons + '</td></tr>';
   });
   body.innerHTML = html;
   body.addEventListener('click', function (e) {
     var tr = e.target.closest('tr[data-from]');
     if (!tr) return;
-    input.value = tr.getAttribute('data-from');
-    render();
+    var n = parseInt(tr.getAttribute('data-from'), 10);
+    showCard(n);
+    clearTimeout(debounceTimer);
+    clearInputKeepCard();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
-  // support ?c=45 deep links
   var m = location.search.match(/[?&]c=(\d+)/);
-  if (m) { input.value = m[1]; render(); }
+  if (m) showCard(parseInt(m[1], 10));
 })();
 </script>
 </body>

@@ -22,14 +22,14 @@
   html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text);
     font-family: -apple-system, "Segoe UI", Roboto, "Heebo", Arial, sans-serif; }
   body { min-height: 100vh; padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); }
-  header { background: #1f2937; color: #fff; padding: 14px 18px 12px; }
-  header h1 { margin: 0; font-size: 18px; font-weight: 700; }
-  header p { margin: 4px 0 0; font-size: 12px; color: #d1d5db; }
-  main { max-width: 520px; margin: 0 auto; padding: 16px 14px 40px; }
+  header { background: #1f2937; color: #fff; padding: 8px 14px 7px; }
+  header h1 { margin: 0; font-size: 15px; font-weight: 700; }
+  header p { margin: 2px 0 0; font-size: 11px; color: #d1d5db; }
+  main { max-width: 520px; margin: 0 auto; padding: 8px 12px 16px; }
   .search { position: relative; }
   .search input {
-    width: 100%; font-size: 40px; font-weight: 800; text-align: center; letter-spacing: 2px;
-    padding: 16px 56px 16px 16px; border: 2px solid var(--line); border-radius: 18px;
+    width: 100%; font-size: 32px; font-weight: 800; text-align: center; letter-spacing: 2px;
+    padding: 8px 48px; border: 2px solid var(--line); border-radius: 14px;
     background: var(--card); color: var(--text); outline: none; direction: ltr;
     -webkit-appearance: none; appearance: none;
   }
@@ -41,9 +41,10 @@
     color: var(--muted); font-size: 22px; line-height: 1; cursor: pointer; display: none;
   }
   .search.has-value button { display: block; }
-  .hint { text-align: center; color: var(--muted); font-size: 13px; margin: 10px 0 0; }
+  .hint { text-align: center; color: var(--muted); font-size: 12px; margin: 6px 0 0; }
+  body.has-result .hint { display: none; }
 
-  .card { margin-top: 18px; border-radius: 20px; padding: 20px 18px; background: var(--card);
+  .card { margin-top: 8px; border-radius: 16px; padding: 10px 12px 12px; background: var(--card);
     border: 2px solid var(--line); box-shadow: 0 6px 20px rgba(0,0,0,.06); display: none; }
   .card.show { display: block; animation: pop .18s ease-out; }
   @keyframes pop { from { transform: scale(.97); opacity: .4; } to { transform: scale(1); opacity: 1; } }
@@ -53,20 +54,18 @@
   .card.missing .big { font-size: 22px; font-weight: 700; color: var(--warn); }
   .card.missing .sub { color: var(--muted); margin-top: 6px; font-size: 14px; }
 
-  .brand { font-size: 34px; font-weight: 900; line-height: 1.1; }
+  .size-hero { background: rgba(255,255,255,.85); border-radius: 14px; padding: 6px 10px 8px; text-align: center; }
+  .size-hero .lbl { font-size: 13px; color: var(--muted); font-weight: 700; }
+  .size-hero .val { font-size: 64px; font-weight: 900; line-height: .95; margin-top: 0; direction: ltr; letter-spacing: 1px; }
+  .who { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-top: 8px; }
+  .brand { font-size: 26px; font-weight: 900; line-height: 1; }
   .arye .brand { color: var(--arye-dark); }
   .baby .brand { color: var(--baby-dark); }
-  .carton-no { font-size: 14px; color: var(--muted); margin-bottom: 6px; }
-  .carton-no b { color: var(--text); font-size: 16px; }
-  .row { display: flex; gap: 10px; margin-top: 14px; }
-  .box { flex: 1; background: rgba(255,255,255,.75); border-radius: 14px; padding: 12px 10px; text-align: center; }
-  .box .lbl { font-size: 12px; color: var(--muted); }
-  .box .val { font-size: 30px; font-weight: 800; margin-top: 2px; direction: ltr; }
-  .box.size .val { font-size: 48px; }
-  .model-name { margin-top: 14px; background: rgba(255,255,255,.75); border-radius: 14px; padding: 12px 14px; }
-  .model-name .lbl { font-size: 12px; color: var(--muted); }
-  .model-name .val { font-size: 22px; font-weight: 800; margin-top: 2px; }
-  .model-name .tag { display: inline-block; margin-top: 6px; margin-inline-end: 6px; font-size: 13px; padding: 3px 10px; border-radius: 999px; background: #fff; border: 1px solid var(--line); color: var(--muted); }
+  .carton-no { font-size: 15px; color: var(--muted); font-weight: 700; }
+  .carton-no b { color: var(--text); }
+  .model-name { margin-top: 4px; font-size: 18px; font-weight: 800; line-height: 1.2; }
+  .model-name .tag { display: inline-block; margin-inline-start: 6px; font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: rgba(255,255,255,.85); border: 1px solid var(--line); color: var(--muted); vertical-align: middle; }
+  body.keyboard details, body.keyboard footer { display: none; }
 
   details { margin-top: 26px; background: var(--card); border-radius: 16px; border: 1px solid var(--line); }
   summary { cursor: pointer; padding: 14px 16px; font-weight: 700; font-size: 15px; list-style: none; display: flex; justify-content: space-between; align-items: center; }
@@ -154,6 +153,7 @@
       card.className = 'card missing show';
       card.innerHTML = '<div class="big">קרטון ' + n + 'X לא נמצא</div>' +
         '<div class="sub">במשלוח הזה יש קרטונים ' + minNo + 'X עד ' + maxNo + 'X בלבד</div>';
+      document.body.classList.add('has-result');
       return;
     }
     var cls = brandClass(c.brand);
@@ -161,12 +161,12 @@
     tags += flannel[c.model] ? '<span class="tag">פלנל</span>' : '<span class="tag">לא פלנל</span>';
     card.className = 'card ' + cls + ' show';
     card.innerHTML =
-      '<div class="carton-no">קרטון <b>' + c.n + 'X</b></div>' +
-      '<div class="brand">' + brandLabel(c.brand) + '</div>' +
-      '<div class="model-name"><div class="lbl">דגם</div><div class="val">' + modelName(c.model) + '</div>' + tags + '</div>' +
-      '<div class="row">' +
-        '<div class="box size"><div class="lbl">מידה</div><div class="val">' + c.size + '</div></div>' +
-      '</div>';
+      '<div class="size-hero"><div class="lbl">מידה</div><div class="val">' + c.size + '</div></div>' +
+      '<div class="who"><div class="brand">' + brandLabel(c.brand) + '</div>' +
+        '<div class="carton-no">קרטון <b>' + c.n + 'X</b></div></div>' +
+      '<div class="model-name">' + modelName(c.model) + tags + '</div>';
+    document.body.classList.add('has-result');
+    keepSizeVisible();
   }
 
   function clearInputKeepCard() {
@@ -229,6 +229,26 @@
     clearInputKeepCard();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
+
+  function keepSizeVisible() {
+    var hero = card.querySelector('.size-hero') || card;
+    if (!card.classList.contains('show')) return;
+    var vv = window.visualViewport;
+    var visibleBottom = (vv ? vv.offsetTop + vv.height : window.innerHeight) - 8;
+    var rect = hero.getBoundingClientRect();
+    if (rect.bottom > visibleBottom) window.scrollBy(0, rect.bottom - visibleBottom);
+  }
+
+  function onViewport() {
+    var vv = window.visualViewport;
+    var keyboard = vv && (window.innerHeight - vv.height) > 80;
+    document.body.classList.toggle('keyboard', !!keyboard);
+    keepSizeVisible();
+  }
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', onViewport);
+    window.visualViewport.addEventListener('scroll', onViewport);
+  }
 
   var m = location.search.match(/[?&]c=(\d+)/);
   if (m) showCard(parseInt(m[1], 10));

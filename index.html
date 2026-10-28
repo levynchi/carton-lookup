@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>חיפוש קרטון - משלוח 025/204</title>
+<title>קרטונים של עומר</title>
 <meta name="theme-color" content="#1f2937">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -17,15 +17,30 @@
     --arye: #1d4ed8; --arye-bg: #dbeafe; --arye-dark: #1e3a8a;
     --baby: #be185d; --baby-bg: #fce7f3; --baby-dark: #831843;
     --warn: #b45309; --warn-bg: #fef3c7;
+    --ok: #047857; --ok-bg: #d1fae5; --used: #4b5563; --used-bg: #e5e7eb;
+    --danger: #b91c1c;
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text);
     font-family: -apple-system, "Segoe UI", Roboto, "Heebo", Arial, sans-serif; }
   body { min-height: 100vh; padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); }
-  header { background: #1f2937; color: #fff; padding: 8px 14px 7px; }
-  header h1 { margin: 0; font-size: 15px; font-weight: 700; }
-  header p { margin: 2px 0 0; font-size: 11px; color: #d1d5db; }
+  header { background: #1f2937; color: #fff; padding: 8px 14px 7px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  header .ttl h1 { margin: 0; font-size: 15px; font-weight: 700; }
+  header .ttl p { margin: 2px 0 0; font-size: 11px; color: #d1d5db; }
+  header .tools { display: flex; gap: 6px; }
+  header button { background: #374151; color: #fff; border: none; border-radius: 10px; width: 38px; height: 38px; font-size: 18px; cursor: pointer; }
+  header button.alert { background: var(--warn); }
   main { max-width: 520px; margin: 0 auto; padding: 8px 12px 16px; }
+
+  .sync { font-size: 12px; text-align: center; margin: 0 0 6px; color: var(--muted); min-height: 16px; }
+  .sync.err { color: var(--danger); font-weight: 700; }
+  .sync.pending { color: var(--warn); font-weight: 700; }
+
+  .seg { display: flex; border: 2px solid var(--line); border-radius: 14px; overflow: hidden; background: var(--card); margin-bottom: 8px; }
+  .seg button { flex: 1; border: none; background: transparent; padding: 10px 6px; font-size: 15px; font-weight: 800; color: var(--muted); cursor: pointer; }
+  .seg button.on { background: #1f2937; color: #fff; }
+  .seg button small { display: block; font-size: 11px; font-weight: 600; opacity: .8; }
+
   .search { position: relative; }
   .search input {
     width: 100%; font-size: 32px; font-weight: 800; text-align: center; letter-spacing: 2px;
@@ -50,13 +65,15 @@
   @keyframes pop { from { transform: scale(.97); opacity: .4; } to { transform: scale(1); opacity: 1; } }
   .card.arye { background: var(--arye-bg); border-color: var(--arye); }
   .card.baby { background: var(--baby-bg); border-color: var(--baby); }
+  .card.is-used { background: var(--used-bg); border-color: #9ca3af; }
   .card.missing { background: var(--warn-bg); border-color: var(--warn); text-align: center; }
   .card.missing .big { font-size: 22px; font-weight: 700; color: var(--warn); }
   .card.missing .sub { color: var(--muted); margin-top: 6px; font-size: 14px; }
 
-  .size-hero { background: rgba(255,255,255,.85); border-radius: 14px; padding: 6px 10px 8px; text-align: center; }
+  .size-hero { background: rgba(255,255,255,.85); border-radius: 14px; padding: 6px 10px 8px; text-align: center; position: relative; }
   .size-hero .lbl { font-size: 13px; color: var(--muted); font-weight: 700; }
   .size-hero .val { font-size: 64px; font-weight: 900; line-height: .95; margin-top: 0; direction: ltr; letter-spacing: 1px; }
+  .is-used .size-hero .val { color: var(--used); text-decoration: line-through; text-decoration-thickness: 4px; text-decoration-color: var(--danger); }
   .who { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-top: 8px; }
   .brand { font-size: 26px; font-weight: 900; line-height: 1; }
   .arye .brand { color: var(--arye-dark); }
@@ -64,10 +81,30 @@
   .carton-no { font-size: 15px; color: var(--muted); font-weight: 700; }
   .carton-no b { color: var(--text); }
   .model-name { margin-top: 4px; font-size: 18px; font-weight: 800; line-height: 1.2; }
-  .model-name .tag { display: inline-block; margin-inline-start: 6px; font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: rgba(255,255,255,.85); border: 1px solid var(--line); color: var(--muted); vertical-align: middle; }
-  body.keyboard details, body.keyboard footer { display: none; }
+  .tag { display: inline-block; margin-inline-start: 6px; font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: rgba(255,255,255,.85); border: 1px solid var(--line); color: var(--muted); vertical-align: middle; }
+  .tag.loc { background: #fff7ed; border-color: #fdba74; color: #9a3412; }
 
-  details { margin-top: 26px; background: var(--card); border-radius: 16px; border: 1px solid var(--line); }
+  .status { margin-top: 10px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .status .pill { font-size: 14px; font-weight: 800; padding: 6px 12px; border-radius: 999px; }
+  .pill.closed { background: var(--ok-bg); color: var(--ok); }
+  .pill.used { background: #fff; color: var(--used); border: 1px solid #9ca3af; }
+  .pill.baby { background: #fff; color: var(--baby-dark); border: 1px solid var(--baby); }
+  .status .when { font-size: 12px; color: var(--muted); }
+  .act { margin-top: 10px; width: 100%; border: none; border-radius: 14px; padding: 14px; font-size: 18px; font-weight: 900; cursor: pointer; color: #fff; }
+  .act.open { background: var(--danger); }
+  .act.undo { background: var(--used); }
+  .act:active { transform: scale(.98); }
+  .act[disabled] { opacity: .6; }
+
+  .summary { margin-top: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .summary .box { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 8px 10px; text-align: center; }
+  .summary .box .n { font-size: 22px; font-weight: 900; }
+  .summary .box .l { font-size: 11px; color: var(--muted); font-weight: 700; }
+  .summary .box.closed .n { color: var(--ok); }
+  .summary .box.used .n { color: var(--used); }
+  body.keyboard details, body.keyboard footer, body.keyboard .summary { display: none; }
+
+  details { margin-top: 14px; background: var(--card); border-radius: 16px; border: 1px solid var(--line); }
   summary { cursor: pointer; padding: 14px 16px; font-weight: 700; font-size: 15px; list-style: none; display: flex; justify-content: space-between; align-items: center; }
   summary::-webkit-details-marker { display: none; }
   summary::after { content: "▾"; color: var(--muted); transition: transform .15s; }
@@ -83,15 +120,47 @@
   .brand-head td { background: #f9fafb; font-weight: 800; font-size: 14px; }
   .brand-head.arye td { color: var(--arye-dark); }
   .brand-head.baby td { color: var(--baby-dark); }
+  td .left { color: var(--ok); font-weight: 700; }
+  td .gone { color: var(--used); }
+  .recent li { display: flex; justify-content: space-between; padding: 8px 14px; border-top: 1px solid var(--line); font-size: 14px; }
+  .recent li b { direction: ltr; }
+  .recent li span { color: var(--muted); font-size: 12px; }
+  .recent ul { list-style: none; margin: 0; padding: 0 0 6px; }
+  .empty { padding: 10px 14px; color: var(--muted); font-size: 13px; }
   footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 24px; }
+
+  dialog { border: none; border-radius: 16px; padding: 0; max-width: 92vw; width: 420px; }
+  dialog::backdrop { background: rgba(0,0,0,.45); }
+  .dlg { padding: 14px 16px 16px; }
+  .dlg h2 { margin: 0 0 8px; font-size: 17px; }
+  .dlg p { margin: 6px 0; font-size: 13px; color: var(--muted); }
+  .dlg input { width: 100%; font-size: 15px; padding: 10px; border: 2px solid var(--line); border-radius: 10px; direction: ltr; }
+  .dlg .row { display: flex; gap: 8px; margin-top: 10px; }
+  .dlg .row button { flex: 1; border: none; border-radius: 10px; padding: 11px; font-weight: 800; font-size: 14px; cursor: pointer; }
+  .dlg .save { background: #1f2937; color: #fff; }
+  .dlg .test { background: var(--arye-bg); color: var(--arye-dark); }
+  .dlg .close { background: var(--line); color: var(--text); }
+  .dlg .msg { margin-top: 8px; font-size: 13px; min-height: 18px; }
+  .dlg .msg.ok { color: var(--ok); }
+  .dlg .msg.err { color: var(--danger); }
 </style>
 </head>
 <body>
 <header>
-  <h1>חיפוש קרטון - משלוח עומר 025 / 204</h1>
-  <p id="meta"></p>
+  <div class="ttl">
+    <h1>קרטונים של עומר</h1>
+    <p id="meta"></p>
+  </div>
+  <div class="tools">
+    <button id="refresh" type="button" aria-label="רענן">↻</button>
+    <button id="settings" type="button" aria-label="הגדרות">⚙</button>
+  </div>
 </header>
 <main>
+  <p class="sync" id="sync"></p>
+
+  <div class="seg" id="seg"></div>
+
   <div class="search" id="search">
     <input id="q" type="text" inputmode="numeric" pattern="[0-9Xx ]*" placeholder="הקלד מספר קרטון" autofocus autocomplete="off" aria-label="מספר קרטון">
     <button id="clear" type="button" aria-label="נקה">×</button>
@@ -100,10 +169,17 @@
 
   <section class="card" id="card" aria-live="polite"></section>
 
+  <div class="summary" id="summary"></div>
+
+  <details class="recent" id="recent">
+    <summary>נפתחו לאחרונה</summary>
+    <ul id="recent-list"></ul>
+  </details>
+
   <details id="ranges">
     <summary>טבלת טווחים - איזה קרטונים שייכים למי</summary>
     <table>
-      <thead><tr><th>קרטונים</th><th>דגם</th><th>מידה</th><th>כמות</th></tr></thead>
+      <thead><tr><th>קרטונים</th><th>דגם</th><th>מידה</th><th>סגורים</th></tr></thead>
       <tbody id="ranges-body"></tbody>
     </table>
   </details>
@@ -111,21 +187,156 @@
   <footer id="footer"></footer>
 </main>
 
-<script id="data" type="application/json">{"updated":"05.10.2026","source":"025-204 second shipment_20261005_080242.xlsx","brands":{"ARYE":"אריה","BABY BASIC":"בייבי בייסיק"},"models":{"25":"בגד גוף שרוול ארוך","204":"גופיות פלנל"},"flannel":[25,204],"cartons":[{"n":1,"brand":"BABY BASIC","model":25,"size":"0-3","packets":50,"pieces":250},{"n":2,"brand":"BABY BASIC","model":25,"size":"0-3","packets":50,"pieces":250},{"n":3,"brand":"BABY BASIC","model":25,"size":"3-6","packets":47,"pieces":235},{"n":4,"brand":"BABY BASIC","model":25,"size":"3-6","packets":47,"pieces":235},{"n":5,"brand":"BABY BASIC","model":25,"size":"3-6","packets":48,"pieces":240},{"n":6,"brand":"BABY BASIC","model":25,"size":"6-12","packets":34,"pieces":170},{"n":7,"brand":"BABY BASIC","model":25,"size":"6-12","packets":34,"pieces":170},{"n":8,"brand":"BABY BASIC","model":25,"size":"6-12","packets":34,"pieces":170},{"n":9,"brand":"BABY BASIC","model":25,"size":"12-18","packets":35,"pieces":175},{"n":10,"brand":"BABY BASIC","model":25,"size":"12-18","packets":35,"pieces":175},{"n":11,"brand":"BABY BASIC","model":25,"size":"12-18","packets":35,"pieces":175},{"n":12,"brand":"BABY BASIC","model":25,"size":"12-18","packets":37,"pieces":185},{"n":13,"brand":"BABY BASIC","model":25,"size":"18-24","packets":33,"pieces":165},{"n":14,"brand":"BABY BASIC","model":25,"size":"18-24","packets":33,"pieces":165},{"n":15,"brand":"BABY BASIC","model":25,"size":"18-24","packets":34,"pieces":170},{"n":16,"brand":"BABY BASIC","model":25,"size":"24-30","packets":34,"pieces":170},{"n":17,"brand":"BABY BASIC","model":25,"size":"24-30","packets":34,"pieces":170},{"n":18,"brand":"BABY BASIC","model":25,"size":"24-30","packets":34,"pieces":170},{"n":19,"brand":"ARYE","model":25,"size":"0-3","packets":84,"pieces":252},{"n":20,"brand":"ARYE","model":25,"size":"0-3","packets":84,"pieces":252},{"n":21,"brand":"ARYE","model":25,"size":"0-3","packets":84,"pieces":252},{"n":22,"brand":"ARYE","model":25,"size":"0-3","packets":86,"pieces":258},{"n":23,"brand":"ARYE","model":25,"size":"3-6","packets":77,"pieces":231},{"n":24,"brand":"ARYE","model":25,"size":"3-6","packets":77,"pieces":231},{"n":25,"brand":"ARYE","model":25,"size":"3-6","packets":77,"pieces":231},{"n":26,"brand":"ARYE","model":25,"size":"3-6","packets":77,"pieces":231},{"n":27,"brand":"ARYE","model":25,"size":"3-6","packets":77,"pieces":231},{"n":28,"brand":"ARYE","model":25,"size":"3-6","packets":77,"pieces":231},{"n":29,"brand":"ARYE","model":25,"size":"3-6","packets":77,"pieces":231},{"n":30,"brand":"ARYE","model":25,"size":"3-6","packets":77,"pieces":231},{"n":31,"brand":"ARYE","model":25,"size":"3-6","packets":77,"pieces":231},{"n":32,"brand":"ARYE","model":25,"size":"3-6","packets":79,"pieces":237},{"n":33,"brand":"ARYE","model":25,"size":"6-12","packets":58,"pieces":174},{"n":34,"brand":"ARYE","model":25,"size":"6-12","packets":58,"pieces":174},{"n":35,"brand":"ARYE","model":25,"size":"6-12","packets":58,"pieces":174},{"n":36,"brand":"ARYE","model":25,"size":"6-12","packets":58,"pieces":174},{"n":37,"brand":"ARYE","model":25,"size":"6-12","packets":58,"pieces":174},{"n":38,"brand":"ARYE","model":25,"size":"6-12","packets":58,"pieces":174},{"n":39,"brand":"ARYE","model":25,"size":"6-12","packets":58,"pieces":174},{"n":40,"brand":"ARYE","model":25,"size":"6-12","packets":62,"pieces":186},{"n":41,"brand":"ARYE","model":25,"size":"12-18","packets":64,"pieces":192},{"n":42,"brand":"ARYE","model":25,"size":"12-18","packets":64,"pieces":192},{"n":43,"brand":"ARYE","model":25,"size":"12-18","packets":64,"pieces":192},{"n":44,"brand":"ARYE","model":25,"size":"12-18","packets":64,"pieces":192},{"n":45,"brand":"ARYE","model":25,"size":"12-18","packets":64,"pieces":192},{"n":46,"brand":"ARYE","model":25,"size":"12-18","packets":64,"pieces":192},{"n":47,"brand":"ARYE","model":25,"size":"12-18","packets":64,"pieces":192},{"n":48,"brand":"ARYE","model":25,"size":"12-18","packets":64,"pieces":192},{"n":49,"brand":"ARYE","model":25,"size":"12-18","packets":64,"pieces":192},{"n":50,"brand":"ARYE","model":25,"size":"12-18","packets":64,"pieces":192},{"n":51,"brand":"ARYE","model":25,"size":"12-18","packets":64,"pieces":192},{"n":52,"brand":"ARYE","model":25,"size":"12-18","packets":65,"pieces":195},{"n":53,"brand":"ARYE","model":25,"size":"18-24","packets":56,"pieces":168},{"n":54,"brand":"ARYE","model":25,"size":"18-24","packets":56,"pieces":168},{"n":55,"brand":"ARYE","model":25,"size":"18-24","packets":56,"pieces":168},{"n":56,"brand":"ARYE","model":25,"size":"18-24","packets":56,"pieces":168},{"n":57,"brand":"ARYE","model":25,"size":"18-24","packets":56,"pieces":168},{"n":58,"brand":"ARYE","model":25,"size":"18-24","packets":56,"pieces":168},{"n":59,"brand":"ARYE","model":25,"size":"18-24","packets":56,"pieces":168},{"n":60,"brand":"ARYE","model":25,"size":"18-24","packets":56,"pieces":168},{"n":61,"brand":"ARYE","model":25,"size":"18-24","packets":56,"pieces":168},{"n":62,"brand":"ARYE","model":25,"size":"18-24","packets":56,"pieces":168},{"n":63,"brand":"ARYE","model":25,"size":"18-24","packets":56,"pieces":168},{"n":64,"brand":"ARYE","model":25,"size":"18-24","packets":56,"pieces":168},{"n":65,"brand":"ARYE","model":25,"size":"18-24","packets":56,"pieces":168},{"n":66,"brand":"ARYE","model":25,"size":"18-24","packets":56,"pieces":168},{"n":67,"brand":"ARYE","model":25,"size":"18-24","packets":61,"pieces":183},{"n":68,"brand":"ARYE","model":25,"size":"24-30","packets":52,"pieces":156},{"n":69,"brand":"ARYE","model":25,"size":"24-30","packets":52,"pieces":156},{"n":70,"brand":"ARYE","model":25,"size":"24-30","packets":52,"pieces":156},{"n":71,"brand":"ARYE","model":25,"size":"24-30","packets":52,"pieces":156},{"n":72,"brand":"ARYE","model":25,"size":"24-30","packets":52,"pieces":156},{"n":73,"brand":"ARYE","model":25,"size":"24-30","packets":52,"pieces":156},{"n":74,"brand":"ARYE","model":25,"size":"24-30","packets":52,"pieces":156},{"n":75,"brand":"ARYE","model":25,"size":"24-30","packets":52,"pieces":156},{"n":76,"brand":"ARYE","model":25,"size":"24-30","packets":55,"pieces":165},{"n":77,"brand":"BABY BASIC","model":204,"size":"4","packets":26,"pieces":130},{"n":78,"brand":"BABY BASIC","model":204,"size":"4","packets":26,"pieces":130},{"n":79,"brand":"BABY BASIC","model":204,"size":"4","packets":26,"pieces":130},{"n":80,"brand":"BABY BASIC","model":204,"size":"4","packets":26,"pieces":130},{"n":81,"brand":"BABY BASIC","model":204,"size":"6","packets":26,"pieces":130},{"n":82,"brand":"BABY BASIC","model":204,"size":"6","packets":26,"pieces":130},{"n":83,"brand":"BABY BASIC","model":204,"size":"6","packets":26,"pieces":130},{"n":84,"brand":"BABY BASIC","model":204,"size":"6","packets":25,"pieces":125},{"n":85,"brand":"ARYE","model":204,"size":"4","packets":43,"pieces":129},{"n":86,"brand":"ARYE","model":204,"size":"4","packets":43,"pieces":129},{"n":87,"brand":"ARYE","model":204,"size":"4","packets":43,"pieces":129},{"n":88,"brand":"ARYE","model":204,"size":"4","packets":43,"pieces":129},{"n":89,"brand":"ARYE","model":204,"size":"4","packets":43,"pieces":129},{"n":90,"brand":"ARYE","model":204,"size":"4","packets":43,"pieces":129},{"n":91,"brand":"ARYE","model":204,"size":"4","packets":43,"pieces":129},{"n":92,"brand":"ARYE","model":204,"size":"4","packets":43,"pieces":129},{"n":93,"brand":"ARYE","model":204,"size":"4","packets":43,"pieces":129},{"n":94,"brand":"ARYE","model":204,"size":"4","packets":43,"pieces":129},{"n":95,"brand":"ARYE","model":204,"size":"4","packets":40,"pieces":120},{"n":96,"brand":"ARYE","model":204,"size":"6","packets":43,"pieces":129},{"n":97,"brand":"ARYE","model":204,"size":"6","packets":43,"pieces":129},{"n":98,"brand":"ARYE","model":204,"size":"6","packets":43,"pieces":129},{"n":99,"brand":"ARYE","model":204,"size":"6","packets":43,"pieces":129},{"n":100,"brand":"ARYE","model":204,"size":"6","packets":43,"pieces":129},{"n":101,"brand":"ARYE","model":204,"size":"6","packets":43,"pieces":129},{"n":102,"brand":"ARYE","model":204,"size":"6","packets":43,"pieces":129},{"n":103,"brand":"ARYE","model":204,"size":"6","packets":43,"pieces":129},{"n":104,"brand":"ARYE","model":204,"size":"6","packets":43,"pieces":129},{"n":105,"brand":"ARYE","model":204,"size":"6","packets":43,"pieces":129},{"n":106,"brand":"ARYE","model":204,"size":"6","packets":38,"pieces":114}],"ranges":[{"brand":"BABY BASIC","model":25,"size":"0-3","from":1,"to":2,"cartons":2,"pieces":500},{"brand":"BABY BASIC","model":25,"size":"3-6","from":3,"to":5,"cartons":3,"pieces":710},{"brand":"BABY BASIC","model":25,"size":"6-12","from":6,"to":8,"cartons":3,"pieces":510},{"brand":"BABY BASIC","model":25,"size":"12-18","from":9,"to":12,"cartons":4,"pieces":710},{"brand":"BABY BASIC","model":25,"size":"18-24","from":13,"to":15,"cartons":3,"pieces":500},{"brand":"BABY BASIC","model":25,"size":"24-30","from":16,"to":18,"cartons":3,"pieces":510},{"brand":"ARYE","model":25,"size":"0-3","from":19,"to":22,"cartons":4,"pieces":1014},{"brand":"ARYE","model":25,"size":"3-6","from":23,"to":32,"cartons":10,"pieces":2316},{"brand":"ARYE","model":25,"size":"6-12","from":33,"to":40,"cartons":8,"pieces":1404},{"brand":"ARYE","model":25,"size":"12-18","from":41,"to":52,"cartons":12,"pieces":2307},{"brand":"ARYE","model":25,"size":"18-24","from":53,"to":67,"cartons":15,"pieces":2535},{"brand":"ARYE","model":25,"size":"24-30","from":68,"to":76,"cartons":9,"pieces":1413},{"brand":"BABY BASIC","model":204,"size":"4","from":77,"to":80,"cartons":4,"pieces":520},{"brand":"BABY BASIC","model":204,"size":"6","from":81,"to":84,"cartons":4,"pieces":515},{"brand":"ARYE","model":204,"size":"4","from":85,"to":95,"cartons":11,"pieces":1410},{"brand":"ARYE","model":204,"size":"6","from":96,"to":106,"cartons":11,"pieces":1404}]}</script>
+<dialog id="dlg">
+  <div class="dlg">
+    <h2>הגדרות סנכרון</h2>
+    <p>טוקן GitHub (fine-grained) עם הרשאת Contents: Read/Write לרפו <span id="repo-name" style="direction:ltr;display:inline-block"></span>. נשמר רק בטלפון הזה.</p>
+    <input id="token" type="password" placeholder="github_pat_..." autocomplete="off">
+    <div class="row">
+      <button class="save" id="tok-save" type="button">שמור</button>
+      <button class="test" id="tok-test" type="button">בדוק חיבור</button>
+      <button class="close" id="tok-close" type="button">סגור</button>
+    </div>
+    <p class="msg" id="tok-msg"></p>
+    <p id="pending-info"></p>
+  </div>
+</dialog>
+
+<script id="data" type="application/json">{"updated":"05.10.2026","repo":"levynchi/carton-lookup","branch":"main","usedFile":"used.json","defaultShipment":"025-204","brands":{"ARYE":"אריה","BABY BASIC":"בייבי בייסיק"},"models":{"200":"רגליות","201":"בגד גוף מעטפת","202":"גטקס פתוח","25":"בגד גוף שרוול ארוך","204":"גופיות פלנל"},"gallery1":["22X","32X","35X","42X","46X","51X","52X","68X","69X","74X","75X","92X"],"gallery1Location":"גלריה 1","defaultLocation":"גלריה 4","shipments":[{"id":"200-201-202","label":"ישן 200/201/202","short":"ישן","suffix":"","source":"200-201-202.xlsx","min":1,"max":53,"count":53},{"id":"025-204","label":"חדש X 025/204","short":"חדש X","suffix":"X","source":"025-204 second shipment_20261005_080242.xlsx","min":1,"max":106,"count":106}],"cartons":[{"key":"1X","n":1,"sh":"025-204","brand":"BABY BASIC","model":25,"size":"0-3","packets":50,"pieces":250,"loc":""},{"key":"2X","n":2,"sh":"025-204","brand":"BABY BASIC","model":25,"size":"0-3","packets":50,"pieces":250,"loc":""},{"key":"3X","n":3,"sh":"025-204","brand":"BABY BASIC","model":25,"size":"3-6","packets":47,"pieces":235,"loc":""},{"key":"4X","n":4,"sh":"025-204","brand":"BABY BASIC","model":25,"size":"3-6","packets":47,"pieces":235,"loc":""},{"key":"5X","n":5,"sh":"025-204","brand":"BABY BASIC","model":25,"size":"3-6","packets":48,"pieces":240,"loc":""},{"key":"6X","n":6,"sh":"025-204","brand":"BABY BASIC","model":25,"size":"6-12","packets":34,"pieces":170,"loc":""},{"key":"7X","n":7,"sh":"025-204","brand":"BABY BASIC","model":25,"size":"6-12","packets":34,"pieces":170,"loc":""},{"key":"8X","n":8,"sh":"025-204","brand":"BABY BASIC","model":25,"size":"6-12","packets":34,"pieces":170,"loc":""},{"key":"9X","n":9,"sh":"025-204","brand":"BABY BASIC","model":25,"size":"12-18","packets":35,"pieces":175,"loc":""},{"key":"10X","n":10,"sh":"025-204","brand":"BABY BASIC","model":25,"size":"12-18","packets":35,"pieces":175,"loc":""},{"key":"11X","n":11,"sh":"025-204","brand":"BABY BASIC","model":25,"size":"12-18","packets":35,"pieces":175,"loc":""},{"key":"12X","n":12,"sh":"025-204","brand":"BABY BASIC","model":25,"size":"12-18","packets":37,"pieces":185,"loc":""},{"key":"13X","n":13,"sh":"025-204","brand":"BABY BASIC","model":25,"size":"18-24","packets":33,"pieces":165,"loc":""},{"key":"14X","n":14,"sh":"025-204","brand":"BABY BASIC","model":25,"size":"18-24","packets":33,"pieces":165,"loc":""},{"key":"15X","n":15,"sh":"025-204","brand":"BABY BASIC","model":25,"size":"18-24","packets":34,"pieces":170,"loc":""},{"key":"16X","n":16,"sh":"025-204","brand":"BABY BASIC","model":25,"size":"24-30","packets":34,"pieces":170,"loc":""},{"key":"17X","n":17,"sh":"025-204","brand":"BABY BASIC","model":25,"size":"24-30","packets":34,"pieces":170,"loc":""},{"key":"18X","n":18,"sh":"025-204","brand":"BABY BASIC","model":25,"size":"24-30","packets":34,"pieces":170,"loc":""},{"key":"19X","n":19,"sh":"025-204","brand":"ARYE","model":25,"size":"0-3","packets":84,"pieces":252,"loc":"גלריה 4"},{"key":"20X","n":20,"sh":"025-204","brand":"ARYE","model":25,"size":"0-3","packets":84,"pieces":252,"loc":"גלריה 4"},{"key":"21X","n":21,"sh":"025-204","brand":"ARYE","model":25,"size":"0-3","packets":84,"pieces":252,"loc":"גלריה 4"},{"key":"22X","n":22,"sh":"025-204","brand":"ARYE","model":25,"size":"0-3","packets":86,"pieces":258,"loc":"גלריה 1"},{"key":"23X","n":23,"sh":"025-204","brand":"ARYE","model":25,"size":"3-6","packets":77,"pieces":231,"loc":"גלריה 4"},{"key":"24X","n":24,"sh":"025-204","brand":"ARYE","model":25,"size":"3-6","packets":77,"pieces":231,"loc":"גלריה 4"},{"key":"25X","n":25,"sh":"025-204","brand":"ARYE","model":25,"size":"3-6","packets":77,"pieces":231,"loc":"גלריה 4"},{"key":"26X","n":26,"sh":"025-204","brand":"ARYE","model":25,"size":"3-6","packets":77,"pieces":231,"loc":"גלריה 4"},{"key":"27X","n":27,"sh":"025-204","brand":"ARYE","model":25,"size":"3-6","packets":77,"pieces":231,"loc":"גלריה 4"},{"key":"28X","n":28,"sh":"025-204","brand":"ARYE","model":25,"size":"3-6","packets":77,"pieces":231,"loc":"גלריה 4"},{"key":"29X","n":29,"sh":"025-204","brand":"ARYE","model":25,"size":"3-6","packets":77,"pieces":231,"loc":"גלריה 4"},{"key":"30X","n":30,"sh":"025-204","brand":"ARYE","model":25,"size":"3-6","packets":77,"pieces":231,"loc":"גלריה 4"},{"key":"31X","n":31,"sh":"025-204","brand":"ARYE","model":25,"size":"3-6","packets":77,"pieces":231,"loc":"גלריה 4"},{"key":"32X","n":32,"sh":"025-204","brand":"ARYE","model":25,"size":"3-6","packets":79,"pieces":237,"loc":"גלריה 1"},{"key":"33X","n":33,"sh":"025-204","brand":"ARYE","model":25,"size":"6-12","packets":58,"pieces":174,"loc":"גלריה 4"},{"key":"34X","n":34,"sh":"025-204","brand":"ARYE","model":25,"size":"6-12","packets":58,"pieces":174,"loc":"גלריה 4"},{"key":"35X","n":35,"sh":"025-204","brand":"ARYE","model":25,"size":"6-12","packets":58,"pieces":174,"loc":"גלריה 1"},{"key":"36X","n":36,"sh":"025-204","brand":"ARYE","model":25,"size":"6-12","packets":58,"pieces":174,"loc":"גלריה 4"},{"key":"37X","n":37,"sh":"025-204","brand":"ARYE","model":25,"size":"6-12","packets":58,"pieces":174,"loc":"גלריה 4"},{"key":"38X","n":38,"sh":"025-204","brand":"ARYE","model":25,"size":"6-12","packets":58,"pieces":174,"loc":"גלריה 4"},{"key":"39X","n":39,"sh":"025-204","brand":"ARYE","model":25,"size":"6-12","packets":58,"pieces":174,"loc":"גלריה 4"},{"key":"40X","n":40,"sh":"025-204","brand":"ARYE","model":25,"size":"6-12","packets":62,"pieces":186,"loc":"גלריה 4"},{"key":"41X","n":41,"sh":"025-204","brand":"ARYE","model":25,"size":"12-18","packets":64,"pieces":192,"loc":"גלריה 4"},{"key":"42X","n":42,"sh":"025-204","brand":"ARYE","model":25,"size":"12-18","packets":64,"pieces":192,"loc":"גלריה 1"},{"key":"43X","n":43,"sh":"025-204","brand":"ARYE","model":25,"size":"12-18","packets":64,"pieces":192,"loc":"גלריה 4"},{"key":"44X","n":44,"sh":"025-204","brand":"ARYE","model":25,"size":"12-18","packets":64,"pieces":192,"loc":"גלריה 4"},{"key":"45X","n":45,"sh":"025-204","brand":"ARYE","model":25,"size":"12-18","packets":64,"pieces":192,"loc":"גלריה 4"},{"key":"46X","n":46,"sh":"025-204","brand":"ARYE","model":25,"size":"12-18","packets":64,"pieces":192,"loc":"גלריה 1"},{"key":"47X","n":47,"sh":"025-204","brand":"ARYE","model":25,"size":"12-18","packets":64,"pieces":192,"loc":"גלריה 4"},{"key":"48X","n":48,"sh":"025-204","brand":"ARYE","model":25,"size":"12-18","packets":64,"pieces":192,"loc":"גלריה 4"},{"key":"49X","n":49,"sh":"025-204","brand":"ARYE","model":25,"size":"12-18","packets":64,"pieces":192,"loc":"גלריה 4"},{"key":"50X","n":50,"sh":"025-204","brand":"ARYE","model":25,"size":"12-18","packets":64,"pieces":192,"loc":"גלריה 4"},{"key":"51X","n":51,"sh":"025-204","brand":"ARYE","model":25,"size":"12-18","packets":64,"pieces":192,"loc":"גלריה 1"},{"key":"52X","n":52,"sh":"025-204","brand":"ARYE","model":25,"size":"12-18","packets":65,"pieces":195,"loc":"גלריה 1"},{"key":"53X","n":53,"sh":"025-204","brand":"ARYE","model":25,"size":"18-24","packets":56,"pieces":168,"loc":"גלריה 4"},{"key":"54X","n":54,"sh":"025-204","brand":"ARYE","model":25,"size":"18-24","packets":56,"pieces":168,"loc":"גלריה 4"},{"key":"55X","n":55,"sh":"025-204","brand":"ARYE","model":25,"size":"18-24","packets":56,"pieces":168,"loc":"גלריה 4"},{"key":"56X","n":56,"sh":"025-204","brand":"ARYE","model":25,"size":"18-24","packets":56,"pieces":168,"loc":"גלריה 4"},{"key":"57X","n":57,"sh":"025-204","brand":"ARYE","model":25,"size":"18-24","packets":56,"pieces":168,"loc":"גלריה 4"},{"key":"58X","n":58,"sh":"025-204","brand":"ARYE","model":25,"size":"18-24","packets":56,"pieces":168,"loc":"גלריה 4"},{"key":"59X","n":59,"sh":"025-204","brand":"ARYE","model":25,"size":"18-24","packets":56,"pieces":168,"loc":"גלריה 4"},{"key":"60X","n":60,"sh":"025-204","brand":"ARYE","model":25,"size":"18-24","packets":56,"pieces":168,"loc":"גלריה 4"},{"key":"61X","n":61,"sh":"025-204","brand":"ARYE","model":25,"size":"18-24","packets":56,"pieces":168,"loc":"גלריה 4"},{"key":"62X","n":62,"sh":"025-204","brand":"ARYE","model":25,"size":"18-24","packets":56,"pieces":168,"loc":"גלריה 4"},{"key":"63X","n":63,"sh":"025-204","brand":"ARYE","model":25,"size":"18-24","packets":56,"pieces":168,"loc":"גלריה 4"},{"key":"64X","n":64,"sh":"025-204","brand":"ARYE","model":25,"size":"18-24","packets":56,"pieces":168,"loc":"גלריה 4"},{"key":"65X","n":65,"sh":"025-204","brand":"ARYE","model":25,"size":"18-24","packets":56,"pieces":168,"loc":"גלריה 4"},{"key":"66X","n":66,"sh":"025-204","brand":"ARYE","model":25,"size":"18-24","packets":56,"pieces":168,"loc":"גלריה 4"},{"key":"67X","n":67,"sh":"025-204","brand":"ARYE","model":25,"size":"18-24","packets":61,"pieces":183,"loc":"גלריה 4"},{"key":"68X","n":68,"sh":"025-204","brand":"ARYE","model":25,"size":"24-30","packets":52,"pieces":156,"loc":"גלריה 1"},{"key":"69X","n":69,"sh":"025-204","brand":"ARYE","model":25,"size":"24-30","packets":52,"pieces":156,"loc":"גלריה 1"},{"key":"70X","n":70,"sh":"025-204","brand":"ARYE","model":25,"size":"24-30","packets":52,"pieces":156,"loc":"גלריה 4"},{"key":"71X","n":71,"sh":"025-204","brand":"ARYE","model":25,"size":"24-30","packets":52,"pieces":156,"loc":"גלריה 4"},{"key":"72X","n":72,"sh":"025-204","brand":"ARYE","model":25,"size":"24-30","packets":52,"pieces":156,"loc":"גלריה 4"},{"key":"73X","n":73,"sh":"025-204","brand":"ARYE","model":25,"size":"24-30","packets":52,"pieces":156,"loc":"גלריה 4"},{"key":"74X","n":74,"sh":"025-204","brand":"ARYE","model":25,"size":"24-30","packets":52,"pieces":156,"loc":"גלריה 1"},{"key":"75X","n":75,"sh":"025-204","brand":"ARYE","model":25,"size":"24-30","packets":52,"pieces":156,"loc":"גלריה 1"},{"key":"76X","n":76,"sh":"025-204","brand":"ARYE","model":25,"size":"24-30","packets":55,"pieces":165,"loc":"גלריה 4"},{"key":"77X","n":77,"sh":"025-204","brand":"BABY BASIC","model":204,"size":"4","packets":26,"pieces":130,"loc":""},{"key":"78X","n":78,"sh":"025-204","brand":"BABY BASIC","model":204,"size":"4","packets":26,"pieces":130,"loc":""},{"key":"79X","n":79,"sh":"025-204","brand":"BABY BASIC","model":204,"size":"4","packets":26,"pieces":130,"loc":""},{"key":"80X","n":80,"sh":"025-204","brand":"BABY BASIC","model":204,"size":"4","packets":26,"pieces":130,"loc":""},{"key":"81X","n":81,"sh":"025-204","brand":"BABY BASIC","model":204,"size":"6","packets":26,"pieces":130,"loc":""},{"key":"82X","n":82,"sh":"025-204","brand":"BABY BASIC","model":204,"size":"6","packets":26,"pieces":130,"loc":""},{"key":"83X","n":83,"sh":"025-204","brand":"BABY BASIC","model":204,"size":"6","packets":26,"pieces":130,"loc":""},{"key":"84X","n":84,"sh":"025-204","brand":"BABY BASIC","model":204,"size":"6","packets":25,"pieces":125,"loc":""},{"key":"85X","n":85,"sh":"025-204","brand":"ARYE","model":204,"size":"4","packets":43,"pieces":129,"loc":"גלריה 4"},{"key":"86X","n":86,"sh":"025-204","brand":"ARYE","model":204,"size":"4","packets":43,"pieces":129,"loc":"גלריה 4"},{"key":"87X","n":87,"sh":"025-204","brand":"ARYE","model":204,"size":"4","packets":43,"pieces":129,"loc":"גלריה 4"},{"key":"88X","n":88,"sh":"025-204","brand":"ARYE","model":204,"size":"4","packets":43,"pieces":129,"loc":"גלריה 4"},{"key":"89X","n":89,"sh":"025-204","brand":"ARYE","model":204,"size":"4","packets":43,"pieces":129,"loc":"גלריה 4"},{"key":"90X","n":90,"sh":"025-204","brand":"ARYE","model":204,"size":"4","packets":43,"pieces":129,"loc":"גלריה 4"},{"key":"91X","n":91,"sh":"025-204","brand":"ARYE","model":204,"size":"4","packets":43,"pieces":129,"loc":"גלריה 4"},{"key":"92X","n":92,"sh":"025-204","brand":"ARYE","model":204,"size":"4","packets":43,"pieces":129,"loc":"גלריה 1"},{"key":"93X","n":93,"sh":"025-204","brand":"ARYE","model":204,"size":"4","packets":43,"pieces":129,"loc":"גלריה 4"},{"key":"94X","n":94,"sh":"025-204","brand":"ARYE","model":204,"size":"4","packets":43,"pieces":129,"loc":"גלריה 4"},{"key":"95X","n":95,"sh":"025-204","brand":"ARYE","model":204,"size":"4","packets":40,"pieces":120,"loc":"גלריה 4"},{"key":"96X","n":96,"sh":"025-204","brand":"ARYE","model":204,"size":"6","packets":43,"pieces":129,"loc":"גלריה 4"},{"key":"97X","n":97,"sh":"025-204","brand":"ARYE","model":204,"size":"6","packets":43,"pieces":129,"loc":"גלריה 4"},{"key":"98X","n":98,"sh":"025-204","brand":"ARYE","model":204,"size":"6","packets":43,"pieces":129,"loc":"גלריה 4"},{"key":"99X","n":99,"sh":"025-204","brand":"ARYE","model":204,"size":"6","packets":43,"pieces":129,"loc":"גלריה 4"},{"key":"100X","n":100,"sh":"025-204","brand":"ARYE","model":204,"size":"6","packets":43,"pieces":129,"loc":"גלריה 4"},{"key":"101X","n":101,"sh":"025-204","brand":"ARYE","model":204,"size":"6","packets":43,"pieces":129,"loc":"גלריה 4"},{"key":"102X","n":102,"sh":"025-204","brand":"ARYE","model":204,"size":"6","packets":43,"pieces":129,"loc":"גלריה 4"},{"key":"103X","n":103,"sh":"025-204","brand":"ARYE","model":204,"size":"6","packets":43,"pieces":129,"loc":"גלריה 4"},{"key":"104X","n":104,"sh":"025-204","brand":"ARYE","model":204,"size":"6","packets":43,"pieces":129,"loc":"גלריה 4"},{"key":"105X","n":105,"sh":"025-204","brand":"ARYE","model":204,"size":"6","packets":43,"pieces":129,"loc":"גלריה 4"},{"key":"106X","n":106,"sh":"025-204","brand":"ARYE","model":204,"size":"6","packets":38,"pieces":114,"loc":"גלריה 4"},{"key":"1","n":1,"sh":"200-201-202","brand":"BABY BASIC","model":200,"size":"0-3","packets":82,"pieces":410,"loc":""},{"key":"2","n":2,"sh":"200-201-202","brand":"BABY BASIC","model":200,"size":"0-3","packets":82,"pieces":410,"loc":""},{"key":"3","n":3,"sh":"200-201-202","brand":"BABY BASIC","model":200,"size":"0-3","packets":82,"pieces":410,"loc":""},{"key":"4","n":4,"sh":"200-201-202","brand":"BABY BASIC","model":200,"size":"0-3","packets":82,"pieces":410,"loc":""},{"key":"5","n":5,"sh":"200-201-202","brand":"BABY BASIC","model":200,"size":"0-3","packets":82,"pieces":410,"loc":""},{"key":"6","n":6,"sh":"200-201-202","brand":"BABY BASIC","model":200,"size":"3-6","packets":51,"pieces":255,"loc":""},{"key":"7","n":7,"sh":"200-201-202","brand":"BABY BASIC","model":200,"size":"3-6","packets":51,"pieces":255,"loc":""},{"key":"8","n":8,"sh":"200-201-202","brand":"ARYE","model":200,"size":"0-3","packets":115,"pieces":345,"loc":"גלריה 4"},{"key":"9","n":9,"sh":"200-201-202","brand":"ARYE","model":200,"size":"0-3","packets":115,"pieces":345,"loc":"גלריה 4"},{"key":"10","n":10,"sh":"200-201-202","brand":"ARYE","model":200,"size":"0-3","packets":115,"pieces":345,"loc":"גלריה 4"},{"key":"11","n":11,"sh":"200-201-202","brand":"ARYE","model":200,"size":"0-3","packets":115,"pieces":345,"loc":"גלריה 4"},{"key":"12","n":12,"sh":"200-201-202","brand":"ARYE","model":200,"size":"0-3","packets":115,"pieces":345,"loc":"גלריה 4"},{"key":"13","n":13,"sh":"200-201-202","brand":"ARYE","model":200,"size":"0-3","packets":106,"pieces":318,"loc":"גלריה 4"},{"key":"14","n":14,"sh":"200-201-202","brand":"ARYE","model":200,"size":"3-6","packets":101,"pieces":303,"loc":"גלריה 4"},{"key":"15","n":15,"sh":"200-201-202","brand":"ARYE","model":200,"size":"3-6","packets":101,"pieces":303,"loc":"גלריה 4"},{"key":"16","n":16,"sh":"200-201-202","brand":"ARYE","model":200,"size":"3-6","packets":101,"pieces":303,"loc":"גלריה 4"},{"key":"17","n":17,"sh":"200-201-202","brand":"ARYE","model":200,"size":"3-6","packets":101,"pieces":303,"loc":"גלריה 4"},{"key":"18","n":18,"sh":"200-201-202","brand":"ARYE","model":200,"size":"3-6","packets":101,"pieces":303,"loc":"גלריה 4"},{"key":"19","n":19,"sh":"200-201-202","brand":"BABY BASIC","model":202,"size":"12-18","packets":51,"pieces":255,"loc":""},{"key":"20","n":20,"sh":"200-201-202","brand":"BABY BASIC","model":202,"size":"12-18","packets":52,"pieces":260,"loc":""},{"key":"21","n":21,"sh":"200-201-202","brand":"BABY BASIC","model":202,"size":"18-24","packets":51,"pieces":255,"loc":""},{"key":"22","n":22,"sh":"200-201-202","brand":"BABY BASIC","model":202,"size":"18-24","packets":52,"pieces":260,"loc":""},{"key":"23","n":23,"sh":"200-201-202","brand":"BABY BASIC","model":202,"size":"24-30","packets":51,"pieces":255,"loc":""},{"key":"24","n":24,"sh":"200-201-202","brand":"BABY BASIC","model":202,"size":"24-30","packets":51,"pieces":255,"loc":""},{"key":"25","n":25,"sh":"200-201-202","brand":"ARYE","model":202,"size":"12-18","packets":84,"pieces":252,"loc":"גלריה 4"},{"key":"26","n":26,"sh":"200-201-202","brand":"ARYE","model":202,"size":"12-18","packets":84,"pieces":252,"loc":"גלריה 4"},{"key":"27","n":27,"sh":"200-201-202","brand":"ARYE","model":202,"size":"12-18","packets":84,"pieces":252,"loc":"גלריה 4"},{"key":"28","n":28,"sh":"200-201-202","brand":"ARYE","model":202,"size":"12-18","packets":84,"pieces":252,"loc":"גלריה 4"},{"key":"29","n":29,"sh":"200-201-202","brand":"ARYE","model":202,"size":"18-24","packets":84,"pieces":252,"loc":"גלריה 4"},{"key":"30","n":30,"sh":"200-201-202","brand":"ARYE","model":202,"size":"18-24","packets":84,"pieces":252,"loc":"גלריה 4"},{"key":"31","n":31,"sh":"200-201-202","brand":"ARYE","model":202,"size":"18-24","packets":84,"pieces":252,"loc":"גלריה 4"},{"key":"32","n":32,"sh":"200-201-202","brand":"ARYE","model":202,"size":"18-24","packets":82,"pieces":246,"loc":"גלריה 4"},{"key":"33","n":33,"sh":"200-201-202","brand":"ARYE","model":202,"size":"24-30","packets":84,"pieces":252,"loc":"גלריה 4"},{"key":"34","n":34,"sh":"200-201-202","brand":"ARYE","model":202,"size":"24-30","packets":84,"pieces":252,"loc":"גלריה 4"},{"key":"35","n":35,"sh":"200-201-202","brand":"ARYE","model":202,"size":"24-30","packets":84,"pieces":252,"loc":"גלריה 4"},{"key":"36","n":36,"sh":"200-201-202","brand":"ARYE","model":202,"size":"24-30","packets":84,"pieces":252,"loc":"גלריה 4"},{"key":"37","n":37,"sh":"200-201-202","brand":"BABY BASIC","model":201,"size":"0-3","packets":50,"pieces":250,"loc":""},{"key":"38","n":38,"sh":"200-201-202","brand":"BABY BASIC","model":201,"size":"0-3","packets":50,"pieces":250,"loc":""},{"key":"39","n":39,"sh":"200-201-202","brand":"BABY BASIC","model":201,"size":"0-3","packets":50,"pieces":250,"loc":""},{"key":"40","n":40,"sh":"200-201-202","brand":"BABY BASIC","model":201,"size":"0-3","packets":50,"pieces":250,"loc":""},{"key":"41","n":41,"sh":"200-201-202","brand":"BABY BASIC","model":201,"size":"0-3","packets":50,"pieces":250,"loc":""},{"key":"42","n":42,"sh":"200-201-202","brand":"BABY BASIC","model":201,"size":"0-3","packets":59,"pieces":295,"loc":""},{"key":"43","n":43,"sh":"200-201-202","brand":"ARYE","model":201,"size":"0-3","packets":80,"pieces":240,"loc":"גלריה 4"},{"key":"44","n":44,"sh":"200-201-202","brand":"ARYE","model":201,"size":"0-3","packets":80,"pieces":240,"loc":"גלריה 4"},{"key":"45","n":45,"sh":"200-201-202","brand":"ARYE","model":201,"size":"0-3","packets":80,"pieces":240,"loc":"גלריה 4"},{"key":"46","n":46,"sh":"200-201-202","brand":"ARYE","model":201,"size":"0-3","packets":80,"pieces":240,"loc":"גלריה 4"},{"key":"47","n":47,"sh":"200-201-202","brand":"ARYE","model":201,"size":"0-3","packets":80,"pieces":240,"loc":"גלריה 4"},{"key":"48","n":48,"sh":"200-201-202","brand":"ARYE","model":201,"size":"0-3","packets":80,"pieces":240,"loc":"גלריה 4"},{"key":"49","n":49,"sh":"200-201-202","brand":"ARYE","model":201,"size":"0-3","packets":80,"pieces":240,"loc":"גלריה 4"},{"key":"50","n":50,"sh":"200-201-202","brand":"ARYE","model":201,"size":"0-3","packets":80,"pieces":240,"loc":"גלריה 4"},{"key":"51","n":51,"sh":"200-201-202","brand":"ARYE","model":201,"size":"0-3","packets":80,"pieces":240,"loc":"גלריה 4"},{"key":"52","n":52,"sh":"200-201-202","brand":"ARYE","model":201,"size":"0-3","packets":62,"pieces":186,"loc":"גלריה 4"},{"key":"53","n":53,"sh":"200-201-202","brand":"ARYE","model":201,"size":"0-3","packets":61,"pieces":183,"loc":"גלריה 4"}],"ranges":{"200-201-202":[{"brand":"BABY BASIC","model":200,"size":"0-3","from":1,"to":5,"cartons":5,"pieces":2050,"keys":["1","2","3","4","5"]},{"brand":"BABY BASIC","model":200,"size":"3-6","from":6,"to":7,"cartons":2,"pieces":510,"keys":["6","7"]},{"brand":"ARYE","model":200,"size":"0-3","from":8,"to":13,"cartons":6,"pieces":2043,"keys":["8","9","10","11","12","13"]},{"brand":"ARYE","model":200,"size":"3-6","from":14,"to":18,"cartons":5,"pieces":1515,"keys":["14","15","16","17","18"]},{"brand":"BABY BASIC","model":202,"size":"12-18","from":19,"to":20,"cartons":2,"pieces":515,"keys":["19","20"]},{"brand":"BABY BASIC","model":202,"size":"18-24","from":21,"to":22,"cartons":2,"pieces":515,"keys":["21","22"]},{"brand":"BABY BASIC","model":202,"size":"24-30","from":23,"to":24,"cartons":2,"pieces":510,"keys":["23","24"]},{"brand":"ARYE","model":202,"size":"12-18","from":25,"to":28,"cartons":4,"pieces":1008,"keys":["25","26","27","28"]},{"brand":"ARYE","model":202,"size":"18-24","from":29,"to":32,"cartons":4,"pieces":1002,"keys":["29","30","31","32"]},{"brand":"ARYE","model":202,"size":"24-30","from":33,"to":36,"cartons":4,"pieces":1008,"keys":["33","34","35","36"]},{"brand":"BABY BASIC","model":201,"size":"0-3","from":37,"to":42,"cartons":6,"pieces":1545,"keys":["37","38","39","40","41","42"]},{"brand":"ARYE","model":201,"size":"0-3","from":43,"to":53,"cartons":11,"pieces":2529,"keys":["43","44","45","46","47","48","49","50","51","52","53"]}],"025-204":[{"brand":"BABY BASIC","model":25,"size":"0-3","from":1,"to":2,"cartons":2,"pieces":500,"keys":["1X","2X"]},{"brand":"BABY BASIC","model":25,"size":"3-6","from":3,"to":5,"cartons":3,"pieces":710,"keys":["3X","4X","5X"]},{"brand":"BABY BASIC","model":25,"size":"6-12","from":6,"to":8,"cartons":3,"pieces":510,"keys":["6X","7X","8X"]},{"brand":"BABY BASIC","model":25,"size":"12-18","from":9,"to":12,"cartons":4,"pieces":710,"keys":["9X","10X","11X","12X"]},{"brand":"BABY BASIC","model":25,"size":"18-24","from":13,"to":15,"cartons":3,"pieces":500,"keys":["13X","14X","15X"]},{"brand":"BABY BASIC","model":25,"size":"24-30","from":16,"to":18,"cartons":3,"pieces":510,"keys":["16X","17X","18X"]},{"brand":"ARYE","model":25,"size":"0-3","from":19,"to":22,"cartons":4,"pieces":1014,"keys":["19X","20X","21X","22X"]},{"brand":"ARYE","model":25,"size":"3-6","from":23,"to":32,"cartons":10,"pieces":2316,"keys":["23X","24X","25X","26X","27X","28X","29X","30X","31X","32X"]},{"brand":"ARYE","model":25,"size":"6-12","from":33,"to":40,"cartons":8,"pieces":1404,"keys":["33X","34X","35X","36X","37X","38X","39X","40X"]},{"brand":"ARYE","model":25,"size":"12-18","from":41,"to":52,"cartons":12,"pieces":2307,"keys":["41X","42X","43X","44X","45X","46X","47X","48X","49X","50X","51X","52X"]},{"brand":"ARYE","model":25,"size":"18-24","from":53,"to":67,"cartons":15,"pieces":2535,"keys":["53X","54X","55X","56X","57X","58X","59X","60X","61X","62X","63X","64X","65X","66X","67X"]},{"brand":"ARYE","model":25,"size":"24-30","from":68,"to":76,"cartons":9,"pieces":1413,"keys":["68X","69X","70X","71X","72X","73X","74X","75X","76X"]},{"brand":"BABY BASIC","model":204,"size":"4","from":77,"to":80,"cartons":4,"pieces":520,"keys":["77X","78X","79X","80X"]},{"brand":"BABY BASIC","model":204,"size":"6","from":81,"to":84,"cartons":4,"pieces":515,"keys":["81X","82X","83X","84X"]},{"brand":"ARYE","model":204,"size":"4","from":85,"to":95,"cartons":11,"pieces":1410,"keys":["85X","86X","87X","88X","89X","90X","91X","92X","93X","94X","95X"]},{"brand":"ARYE","model":204,"size":"6","from":96,"to":106,"cartons":11,"pieces":1404,"keys":["96X","97X","98X","99X","100X","101X","102X","103X","104X","105X","106X"]}]}}</script>
 <script>
 (function () {
   var DATA = JSON.parse(document.getElementById('data').textContent);
-  var byNo = {};
-  DATA.cartons.forEach(function (c) { byNo[c.n] = c; });
-  var nums = DATA.cartons.map(function (c) { return c.n; });
-  var minNo = Math.min.apply(null, nums), maxNo = Math.max.apply(null, nums);
-  var flannel = {};
-  DATA.flannel.forEach(function (m) { flannel[m] = true; });
+  var API = 'https://api.github.com/repos/' + DATA.repo + '/contents/' + DATA.usedFile;
+  var LS = { token: 'omer_gh_token', used: 'omer_used_cache', pending: 'omer_pending', ship: 'omer_shipment' };
 
+  var byKey = {}, byShip = {};
+  DATA.shipments.forEach(function (s) { byShip[s.id] = s; });
+  DATA.cartons.forEach(function (c) { byKey[c.key] = c; });
+  var gallery1 = {};
+  DATA.gallery1.forEach(function (k) { gallery1[k] = true; });
+
+  var state = {
+    used: {}, sha: null, pending: [], token: '',
+    ship: DATA.defaultShipment, current: null, online: navigator.onLine, syncing: false, lastErr: ''
+  };
+  try { state.token = localStorage.getItem(LS.token) || ''; } catch (e) {}
+  try { state.pending = JSON.parse(localStorage.getItem(LS.pending) || '[]') || []; } catch (e) { state.pending = []; }
+  try { var cu = JSON.parse(localStorage.getItem(LS.used) || 'null'); if (cu && cu.used) { state.used = cu.used; state.sha = cu.sha || null; } } catch (e) {}
+  try { var ss = localStorage.getItem(LS.ship); if (ss && byShip[ss]) state.ship = ss; } catch (e) {}
+
+  // ---------- helpers
   function brandClass(b) { return b === 'ARYE' ? 'arye' : 'baby'; }
   function brandLabel(b) { return DATA.brands[b] || b; }
   function modelCode(m) { return String(m).padStart(3, '0'); }
   function modelName(m) { return DATA.models[String(m)] || ''; }
+  function labelOf(c) { return c.n + byShip[c.sh].suffix; }
+  function isUsed(key) { return !!state.used[key]; }
+  function effectiveUsed() {
+    // used map + pending changes not yet pushed
+    var m = {}; for (var k in state.used) m[k] = state.used[k];
+    state.pending.forEach(function (p) { if (p.used) m[p.key] = { at: p.at, by: 'phone', pending: true }; else delete m[p.key]; });
+    return m;
+  }
+  function fmtWhen(s) { return s ? String(s).replace(/^(\d{4})-(\d{2})-(\d{2}) /, '$3.$2.$1 ') : ''; }
+  function nowStr() {
+    var d = new Date(), p = function (n) { return String(n).padStart(2, '0'); };
+    return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()) + ' ' + p(d.getHours()) + ':' + p(d.getMinutes());
+  }
+  function savePending() { try { localStorage.setItem(LS.pending, JSON.stringify(state.pending)); } catch (e) {} }
+  function saveUsedCache() { try { localStorage.setItem(LS.used, JSON.stringify({ used: state.used, sha: state.sha, at: nowStr() })); } catch (e) {} }
+  function b64utf8(str) { return btoa(unescape(encodeURIComponent(str))); }
+  function b64decode(str) { return decodeURIComponent(escape(atob(String(str).replace(/\n/g, '')))); }
+  function headers() {
+    var h = { 'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28' };
+    if (state.token) h['Authorization'] = 'Bearer ' + state.token;
+    return h;
+  }
+
+  // ---------- GitHub sync
+  function apiGet() {
+    return fetch(API + '?ref=' + DATA.branch + '&t=' + Date.now(), { headers: headers(), cache: 'no-store' }).then(function (r) {
+      if (r.status === 404) return { used: {}, sha: null };
+      if (!r.ok) throw new Error('GitHub ' + r.status);
+      return r.json().then(function (b) {
+        var obj = {};
+        try { obj = JSON.parse(b64decode(b.content || '') || '{}'); } catch (e) { obj = {}; }
+        return { used: (obj && obj.used) || {}, sha: b.sha || null };
+      });
+    });
+  }
+  function apiPut(usedMap, sha, message) {
+    var keys = Object.keys(usedMap).sort(function (a, b) { return (parseInt(a, 10) || 0) - (parseInt(b, 10) || 0) || (a < b ? -1 : 1); });
+    var sorted = {}; keys.forEach(function (k) { sorted[k] = usedMap[k]; });
+    var body = { message: message, content: b64utf8(JSON.stringify({ used: sorted }, null, 1)), branch: DATA.branch };
+    if (sha) body.sha = sha;
+    return fetch(API, { method: 'PUT', headers: headers(), body: JSON.stringify(body) }).then(function (r) {
+      if (r.status === 409 || r.status === 422) { var e = new Error('conflict'); e.conflict = true; throw e; }
+      if (!r.ok) throw new Error('GitHub ' + r.status);
+      return r.json().then(function (b) { return { used: sorted, sha: (b.content && b.content.sha) || null }; });
+    });
+  }
+  function setSync(text, cls) {
+    var el = document.getElementById('sync');
+    el.textContent = text || ''; el.className = 'sync' + (cls ? ' ' + cls : '');
+    document.getElementById('settings').className = (state.pending.length || (!state.token && state.pending.length)) ? 'alert' : '';
+  }
+  function refreshStatusLine() {
+    if (state.syncing) { setSync('מסנכרן…'); return; }
+    if (state.pending.length) {
+      setSync(state.pending.length + ' סימונים ממתינים לסנכרון' + (!state.token ? ' — חסר טוקן (⚙)' : state.lastErr ? ' — ' + state.lastErr : ''), 'pending');
+      return;
+    }
+    if (state.lastErr) { setSync('לא מקוון — מציג נתונים שמורים (' + state.lastErr + ')', 'err'); return; }
+    var n = Object.keys(state.used).length;
+    setSync('מסונכרן · ' + n + ' קרטונים נפתחו');
+  }
+  function flush() {
+    if (state.syncing) return Promise.resolve();
+    if (!state.pending.length) return Promise.resolve();
+    if (!state.token) { refreshStatusLine(); return Promise.resolve(); }
+    state.syncing = true; refreshStatusLine();
+    var attempt = 0;
+    function go() {
+      attempt++;
+      return apiGet().then(function (remote) {
+        var merged = {}; for (var k in remote.used) merged[k] = remote.used[k];
+        var pend = state.pending.slice();
+        pend.forEach(function (p) { if (p.used) merged[p.key] = { at: p.at, by: 'phone' }; else delete merged[p.key]; });
+        var msg = pend.length === 1 ? ((pend[0].used ? 'Open' : 'Unopen') + ' carton ' + pend[0].key + ' (phone)') : ('Sync ' + pend.length + ' carton marks (phone)');
+        return apiPut(merged, remote.sha, msg).then(function (res) {
+          state.used = res.used; state.sha = res.sha;
+          state.pending = state.pending.filter(function (p) { return pend.indexOf(p) === -1; });
+          savePending(); saveUsedCache(); state.lastErr = '';
+        });
+      }).catch(function (e) {
+        if (e && e.conflict && attempt < 3) return go();
+        state.lastErr = (e && e.message) || 'שגיאה';
+      });
+    }
+    return go().then(function () { state.syncing = false; refreshStatusLine(); renderAll(); });
+  }
+  function loadRemote() {
+    state.syncing = true; refreshStatusLine();
+    return apiGet().then(function (remote) {
+      state.used = remote.used; state.sha = remote.sha; state.lastErr = ''; saveUsedCache();
+    }).catch(function (e) {
+      state.lastErr = (e && e.message) || 'אין חיבור';
+    }).then(function () { state.syncing = false; refreshStatusLine(); renderAll(); return flush(); });
+  }
+
+  // ---------- marking
+  function toggle(key, used) {
+    var now = nowStr();
+    // drop any earlier pending change for the same key
+    state.pending = state.pending.filter(function (p) { return p.key !== key; });
+    var remoteHas = !!state.used[key];
+    if (used !== remoteHas) state.pending.push({ key: key, used: used, at: now });
+    savePending(); renderAll(); refreshStatusLine();
+    if (navigator.vibrate) { try { navigator.vibrate(used ? 40 : 15); } catch (e) {} }
+    flush();
+  }
+
+  // ---------- rendering
   var input = document.getElementById('q');
   var search = document.getElementById('search');
   var card = document.getElementById('card');
@@ -133,103 +344,206 @@
   var debounceTimer = null;
   var DEBOUNCE_MS = 550;
 
-  document.getElementById('meta').textContent = 'עודכן ' + DATA.updated + ' · ' + DATA.cartons.length + ' קרטונים (' + minNo + 'X–' + maxNo + 'X)';
-  document.getElementById('footer').textContent = 'מקור: ' + DATA.source;
-  hint.textContent = 'אחרי ההקלדה השדה מתנקה — אפשר להקליד מספר חדש';
-
-  function parseNo(raw) {
-    var digits = String(raw || '').replace(/\D/g, '');
-    return digits ? parseInt(digits, 10) : null;
+  function renderMeta() {
+    var parts = DATA.shipments.map(function (s) { return s.short + ' ' + s.count; });
+    document.getElementById('meta').textContent = parts.join(' · ') + ' קרטונים · עודכן ' + DATA.updated;
+    document.getElementById('footer').textContent = 'מקור: ' + DATA.shipments.map(function (s) { return s.source; }).join(' | ');
+    document.getElementById('repo-name').textContent = DATA.repo;
+    hint.textContent = 'אחרי ההקלדה השדה מתנקה — אפשר להקליד מספר חדש';
   }
-
-  function syncClearBtn() {
-    search.classList.toggle('has-value', input.value.trim().length > 0);
+  function renderSeg() {
+    var seg = document.getElementById('seg'); seg.innerHTML = '';
+    DATA.shipments.forEach(function (s) {
+      var b = document.createElement('button'); b.type = 'button';
+      b.innerHTML = s.label + '<small>' + s.min + s.suffix + '–' + s.max + s.suffix + '</small>';
+      b.className = s.id === state.ship ? 'on' : '';
+      b.addEventListener('click', function () { setShip(s.id); input.focus(); });
+      seg.appendChild(b);
+    });
   }
-
-  function showCard(n) {
-    if (n === null) return;
-    var c = byNo[n];
+  function setShip(id) {
+    if (!byShip[id]) return;
+    state.ship = id; try { localStorage.setItem(LS.ship, id); } catch (e) {}
+    renderSeg(); renderSummary(); renderRanges();
+  }
+  function showCard(key) {
+    var c = byKey[key];
+    state.current = key;
     if (!c) {
+      var s = byShip[state.ship];
       card.className = 'card missing show';
-      card.innerHTML = '<div class="big">קרטון ' + n + 'X לא נמצא</div>' +
-        '<div class="sub">במשלוח הזה יש קרטונים ' + minNo + 'X עד ' + maxNo + 'X בלבד</div>';
+      card.innerHTML = '<div class="big">קרטון ' + key + ' לא נמצא</div>' +
+        '<div class="sub">במשלוח ' + s.label + ' יש קרטונים ' + s.min + s.suffix + ' עד ' + s.max + s.suffix + ' בלבד</div>';
       document.body.classList.add('has-result');
       return;
     }
-    var cls = brandClass(c.brand);
-    var tags = '<span class="tag">דגם ' + modelCode(c.model) + '</span>';
-    tags += flannel[c.model] ? '<span class="tag">פלנל</span>' : '<span class="tag">לא פלנל</span>';
+    var eff = effectiveUsed();
+    var used = eff[key];
+    var cls = brandClass(c.brand) + (used ? ' is-used' : '');
+    var tags = '<span class="tag">דגם ' + modelCode(c.model) + '</span><span class="tag">' + byShip[c.sh].short + '</span>';
+    if (c.brand === 'ARYE' && c.loc) tags += '<span class="tag loc">' + c.loc + '</span>';
+    var statusHtml, actHtml = '';
+    if (c.brand !== 'ARYE') {
+      statusHtml = '<span class="pill baby">נמסר לבייבי בייסיק</span><span class="when">' + c.pieces + ' יח׳ · ' + c.packets + ' חבילות</span>';
+    } else if (used) {
+      statusHtml = '<span class="pill used">נפתח' + (used.pending ? ' (ממתין)' : '') + '</span><span class="when">' + fmtWhen(used.at) + '</span>';
+      actHtml = '<button class="act undo" type="button" data-key="' + key + '" data-used="0">בטל סימון — הקרטון עדיין סגור</button>';
+    } else {
+      statusHtml = '<span class="pill closed">סגור — במלאי</span><span class="when">' + c.pieces + ' יח׳ · ' + c.packets + ' חבילות</span>';
+      actHtml = '<button class="act open" type="button" data-key="' + key + '" data-used="1">סמן כנפתח</button>';
+    }
     card.className = 'card ' + cls + ' show';
     card.innerHTML =
       '<div class="size-hero"><div class="lbl">מידה</div><div class="val">' + c.size + '</div></div>' +
       '<div class="who"><div class="brand">' + brandLabel(c.brand) + '</div>' +
-        '<div class="carton-no">קרטון <b>' + c.n + 'X</b></div></div>' +
-      '<div class="model-name">' + modelName(c.model) + tags + '</div>';
+        '<div class="carton-no">קרטון <b>' + labelOf(c) + '</b></div></div>' +
+      '<div class="model-name">' + modelName(c.model) + tags + '</div>' +
+      '<div class="status">' + statusHtml + '</div>' + actHtml;
     document.body.classList.add('has-result');
     keepSizeVisible();
   }
-
-  function clearInputKeepCard() {
-    input.value = '';
-    syncClearBtn();
-    input.focus();
+  card.addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-key]');
+    if (!b) return;
+    var key = b.getAttribute('data-key'), used = b.getAttribute('data-used') === '1';
+    if (!used && !confirm('לבטל את הסימון של קרטון ' + key + '?')) return;
+    b.disabled = true;
+    toggle(key, used);
+  });
+  function renderSummary() {
+    var eff = effectiveUsed();
+    var arye = DATA.cartons.filter(function (c) { return c.brand === 'ARYE' && c.sh === state.ship; });
+    var closed = arye.filter(function (c) { return !eff[c.key]; });
+    var pieces = closed.reduce(function (a, c) { return a + c.pieces; }, 0);
+    var g1 = closed.filter(function (c) { return c.loc === DATA.gallery1Location; }).length;
+    document.getElementById('summary').innerHTML =
+      '<div class="box closed"><div class="n">' + closed.length + '</div><div class="l">קרטוני אריה סגורים · ' + pieces.toLocaleString() + ' יח׳</div></div>' +
+      '<div class="box used"><div class="n">' + (arye.length - closed.length) + '</div><div class="l">נפתחו מתוך ' + arye.length + '</div></div>' +
+      '<div class="box"><div class="n">' + g1 + '</div><div class="l">סגורים ב' + DATA.gallery1Location + '</div></div>' +
+      '<div class="box"><div class="n">' + (closed.length - g1) + '</div><div class="l">סגורים ב' + DATA.defaultLocation + '</div></div>';
+  }
+  function renderRecent() {
+    var eff = effectiveUsed();
+    var items = Object.keys(eff).map(function (k) { return { key: k, at: eff[k].at || '', pending: !!eff[k].pending }; });
+    items.sort(function (a, b) { return a.at < b.at ? 1 : a.at > b.at ? -1 : 0; });
+    var ul = document.getElementById('recent-list');
+    if (!items.length) { ul.innerHTML = '<li class="empty">עדיין לא סומנו קרטונים</li>'; return; }
+    ul.innerHTML = items.slice(0, 40).map(function (it) {
+      var c = byKey[it.key];
+      var desc = c ? (modelName(c.model) + ' ' + c.size + ' · ' + byShip[c.sh].short) : '';
+      return '<li data-key="' + it.key + '"><b>' + it.key + '</b><span>' + desc + '</span><span>' + fmtWhen(it.at) + (it.pending ? ' ⏳' : '') + '</span></li>';
+    }).join('');
+  }
+  document.getElementById('recent-list').addEventListener('click', function (e) {
+    var li = e.target.closest('li[data-key]'); if (!li) return;
+    var key = li.getAttribute('data-key'); var c = byKey[key]; if (c) setShip(c.sh);
+    showCard(key); window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+  function renderRanges() {
+    var eff = effectiveUsed();
+    var body = document.getElementById('ranges-body');
+    var s = byShip[state.ship];
+    var lastBrand = null, html = '';
+    (DATA.ranges[state.ship] || []).forEach(function (r) {
+      var cls = brandClass(r.brand);
+      if (r.brand !== lastBrand) {
+        html += '<tr class="brand-head ' + cls + '"><td colspan="4">' + brandLabel(r.brand) + '</td></tr>';
+        lastBrand = r.brand;
+      }
+      var span = r.from === r.to ? (r.from + s.suffix) : (r.from + s.suffix + '–' + r.to + s.suffix);
+      var left = r.brand === 'ARYE' ? r.keys.filter(function (k) { return !eff[k]; }).length : null;
+      var leftHtml = left === null ? '<span class="gone">נמסר</span>' : (left === r.cartons ? '<span class="left">' + left + '</span>' : '<span class="left">' + left + '</span><span class="gone">/' + r.cartons + '</span>');
+      html += '<tr class="clickable ' + cls + '" data-key="' + r.keys[0] + '">' +
+        '<td class="num">' + span + '</td>' +
+        '<td>' + modelCode(r.model) + ' ' + modelName(r.model) + '</td>' +
+        '<td class="num">' + r.size + '</td>' +
+        '<td class="num">' + leftHtml + '</td></tr>';
+    });
+    body.innerHTML = html;
+  }
+  document.getElementById('ranges-body').addEventListener('click', function (e) {
+    var tr = e.target.closest('tr[data-key]'); if (!tr) return;
+    showCard(tr.getAttribute('data-key'));
+    clearTimeout(debounceTimer); clearInputKeepCard();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+  function renderAll() {
+    renderSummary(); renderRecent(); renderRanges();
+    if (state.current) showCard(state.current);
   }
 
-  function scheduleClear() {
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(clearInputKeepCard, DEBOUNCE_MS);
+  // ---------- input
+  function parseInput(raw) {
+    var s = String(raw || '').toUpperCase();
+    var digits = s.replace(/\D/g, '');
+    if (!digits) return null;
+    var hasX = s.indexOf('X') !== -1;
+    return { n: parseInt(digits, 10), hasX: hasX };
   }
-
+  function keyFor(p) {
+    if (p.hasX) {
+      var xs = DATA.shipments.filter(function (s) { return s.suffix === 'X'; })[0];
+      if (xs && xs.id !== state.ship) setShip(xs.id);
+      return p.n + 'X';
+    }
+    return p.n + byShip[state.ship].suffix;
+  }
+  function syncClearBtn() { search.classList.toggle('has-value', input.value.trim().length > 0); }
+  function clearInputKeepCard() { input.value = ''; syncClearBtn(); input.focus(); }
+  function scheduleClear() { clearTimeout(debounceTimer); debounceTimer = setTimeout(clearInputKeepCard, DEBOUNCE_MS); }
   function onType() {
     syncClearBtn();
-    var n = parseNo(input.value);
-    if (n === null) return;
-    showCard(n);
+    var p = parseInput(input.value);
+    if (!p) return;
+    showCard(keyFor(p));
     scheduleClear();
   }
-
   input.addEventListener('input', onType);
   input.addEventListener('keydown', function (e) {
     if (e.key === 'Enter') {
       e.preventDefault();
-      var n = parseNo(input.value);
-      if (n !== null) showCard(n);
-      clearTimeout(debounceTimer);
-      clearInputKeepCard();
+      var p = parseInput(input.value);
+      if (p) showCard(keyFor(p));
+      clearTimeout(debounceTimer); clearInputKeepCard();
     }
   });
-  document.getElementById('clear').addEventListener('click', function () {
-    clearTimeout(debounceTimer);
-    clearInputKeepCard();
+  document.getElementById('clear').addEventListener('click', function () { clearTimeout(debounceTimer); clearInputKeepCard(); });
+  document.getElementById('refresh').addEventListener('click', function () { loadRemote(); });
+
+  // ---------- settings dialog
+  var dlg = document.getElementById('dlg');
+  var tokIn = document.getElementById('token');
+  var tokMsg = document.getElementById('tok-msg');
+  function openDlg() {
+    tokIn.value = state.token; tokMsg.textContent = ''; tokMsg.className = 'msg';
+    document.getElementById('pending-info').textContent = state.pending.length ? ('ממתינים לסנכרון: ' + state.pending.map(function (p) { return p.key + (p.used ? '' : ' (ביטול)'); }).join(', ')) : '';
+    if (dlg.showModal) dlg.showModal(); else dlg.setAttribute('open', '');
+  }
+  function closeDlg() { if (dlg.close) dlg.close(); else dlg.removeAttribute('open'); input.focus(); }
+  document.getElementById('settings').addEventListener('click', openDlg);
+  document.getElementById('tok-close').addEventListener('click', closeDlg);
+  document.getElementById('tok-save').addEventListener('click', function () {
+    state.token = tokIn.value.trim();
+    try { if (state.token) localStorage.setItem(LS.token, state.token); else localStorage.removeItem(LS.token); } catch (e) {}
+    tokMsg.textContent = state.token ? 'נשמר. מסנכרן…' : 'הטוקן נמחק'; tokMsg.className = 'msg ok';
+    loadRemote().then(function () { tokMsg.textContent = state.lastErr ? ('שגיאה: ' + state.lastErr) : 'מסונכרן'; tokMsg.className = 'msg ' + (state.lastErr ? 'err' : 'ok'); });
+  });
+  document.getElementById('tok-test').addEventListener('click', function () {
+    var t = tokIn.value.trim();
+    tokMsg.textContent = 'בודק…'; tokMsg.className = 'msg';
+    var h = { 'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28' };
+    if (t) h['Authorization'] = 'Bearer ' + t;
+    fetch('https://api.github.com/repos/' + DATA.repo, { headers: h, cache: 'no-store' }).then(function (r) {
+      if (!r.ok) throw new Error('GitHub ' + r.status);
+      return r.json();
+    }).then(function (b) {
+      var canWrite = b.permissions && (b.permissions.push || b.permissions.admin);
+      tokMsg.textContent = canWrite ? 'החיבור תקין — יש הרשאת כתיבה' : (t ? 'מחובר, אבל אין הרשאת כתיבה לרפו' : 'קריאה בלבד (אין טוקן)');
+      tokMsg.className = 'msg ' + (canWrite ? 'ok' : 'err');
+    }).catch(function (e) { tokMsg.textContent = 'שגיאה: ' + e.message; tokMsg.className = 'msg err'; });
   });
 
-  var body = document.getElementById('ranges-body');
-  var lastBrand = null;
-  var html = '';
-  DATA.ranges.forEach(function (r) {
-    var cls = brandClass(r.brand);
-    if (r.brand !== lastBrand) {
-      html += '<tr class="brand-head ' + cls + '"><td colspan="4">' + brandLabel(r.brand) + '</td></tr>';
-      lastBrand = r.brand;
-    }
-    var span = r.from === r.to ? (r.from + 'X') : (r.from + 'X–' + r.to + 'X');
-    html += '<tr class="clickable ' + cls + '" data-from="' + r.from + '">' +
-      '<td class="num">' + span + '</td>' +
-      '<td>' + modelCode(r.model) + ' ' + modelName(r.model) + '</td>' +
-      '<td class="num">' + r.size + '</td>' +
-      '<td class="num">' + r.cartons + '</td></tr>';
-  });
-  body.innerHTML = html;
-  body.addEventListener('click', function (e) {
-    var tr = e.target.closest('tr[data-from]');
-    if (!tr) return;
-    var n = parseInt(tr.getAttribute('data-from'), 10);
-    showCard(n);
-    clearTimeout(debounceTimer);
-    clearInputKeepCard();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
-
+  // ---------- viewport / keyboard
   function keepSizeVisible() {
     var hero = card.querySelector('.size-hero') || card;
     if (!card.classList.contains('show')) return;
@@ -238,7 +552,6 @@
     var rect = hero.getBoundingClientRect();
     if (rect.bottom > visibleBottom) window.scrollBy(0, rect.bottom - visibleBottom);
   }
-
   function onViewport() {
     var vv = window.visualViewport;
     var keyboard = vv && (window.innerHeight - vv.height) > 80;
@@ -249,9 +562,14 @@
     window.visualViewport.addEventListener('resize', onViewport);
     window.visualViewport.addEventListener('scroll', onViewport);
   }
+  window.addEventListener('online', function () { state.lastErr = ''; loadRemote(); });
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) loadRemote(); });
 
-  var m = location.search.match(/[?&]c=(\d+)/);
-  if (m) showCard(parseInt(m[1], 10));
+  // ---------- boot
+  renderMeta(); renderSeg(); renderAll(); refreshStatusLine();
+  var m = location.search.match(/[?&]c=([0-9]+X?)/i);
+  if (m) { var k = m[1].toUpperCase(); var cc = byKey[k]; if (cc) setShip(cc.sh); showCard(k); }
+  loadRemote();
 })();
 </script>
 </body>

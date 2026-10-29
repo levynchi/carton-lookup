@@ -145,6 +145,11 @@
   var API = 'https://api.github.com/repos/' + DATA.repo + '/contents/';
   var RAW = 'https://raw.githubusercontent.com/' + DATA.repo + '/' + DATA.branch + '/';
 
+  function cleanKey(s) {
+    s = String(s || '').replace(/[\s\u200b\u200e\u200f]+/g, '');
+    var m = s.match(/AIza[0-9A-Za-z\-_]{20,}/);
+    return m ? m[0] : s;
+  }
   function lsGet(k, d) { try { var v = localStorage.getItem(k); return v == null ? d : v; } catch (e) { return d; } }
   function lsSet(k, v) { try { localStorage.setItem(k, v); return true; } catch (e) { return false; } }
   function today() { var d = new Date(), p = function (n) { return String(n).padStart(2, '0'); }; return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()); }
@@ -156,7 +161,7 @@
   function b64utf8(str) { return btoa(unescape(encodeURIComponent(str))); }
 
   var state = {
-    token: lsGet(LS.token, ''), gemini: lsGet(LS.gkey, ''), model: lsGet(LS.model, '') || DATA.defaultModel,
+    token: lsGet(LS.token, ''), gemini: cleanKey(lsGet(LS.gkey, '')), model: (lsGet(LS.model, '') || DATA.defaultModel).trim(),
     attach: lsGet(LS.photo, '1') !== '0',
     imageB64: '', lines: [], packages: [], notes: '', queue: [], sent: []
   };
@@ -279,44 +284,54 @@
       required: ['lines', 'packages', 'notes']
     };
   }
-  function geminiBody(useNewFormat) {
-    var gen = { temperature: 0.1 };
-    if (useNewFormat) {
-      gen.responseFormat = { text: { mimeType: 'APPLICATION_JSON', schema: schema() } };
-    } else {
+  function geminiBody(mode) {
+    var gen = { temperature: 0.1, thinkingConfig: { thinkingLevel: 'low' } };
+    if (mode === 'schema') {
       gen.responseMimeType = 'application/json';
       gen.responseJsonSchema = schema();
     }
     return {
       contents: [{ parts: [
-        { inline_data: { mime_type: 'image/jpeg', data: state.imageB64 } },
+        { inlineData: { mimeType: 'image/jpeg', data: state.imageB64 } },
         { text: promptText() }
       ] }],
       generationConfig: gen
     };
   }
-  function callGemini(useNewFormat) {
-    return fetch('https://generativelanguage.googleapis.com/v1beta/models/' + encodeURIComponent(state.model) + ':generateContent', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-goog-api-key': state.gemini },
-      body: JSON.stringify(geminiBody(useNewFormat))
-    }).then(function (r) {
-      return r.json().then(function (body) {
-        if (!r.ok) {
-          var msg = (body && body.error && body.error.message) || ('Gemini ' + r.status);
-          var err = new Error(msg); err.status = r.status; throw err;
-        }
-        return body;
+  // text/plain plus the key in the query avoids the browser's OPTIONS
+  // preflight. Phones often block that preflight and surface it as
+  // "Failed to fetch", even though the API itself is reachable.
+  function callGemini(mode) {
+    var url = 'https://generativelanguage.googleapis.com/v1beta/models/' + encodeURIComponent(state.model) + ':generateContent?key=' + encodeURIComponent(state.gemini);
+    function once() {
+      return fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+        body: JSON.stringify(geminiBody(mode))
+      }).then(function (r) {
+        return r.json().then(function (body) {
+          if (!r.ok) {
+            var msg = (body && body.error && body.error.message) || ('Gemini ' + r.status);
+            var err = new Error(msg); err.status = r.status; throw err;
+          }
+          return body;
+        });
       });
+    }
+    return once().catch(function (e) {
+      if (e && e.status) throw e;
+      return once();
     });
   }
   document.getElementById('parse').addEventListener('click', function () {
     if (!state.imageB64) { setStatus('status', 'קודם מצלמים או בוחרים תמונה', 'err'); return; }
+    state.gemini = cleanKey(state.gemini);
     if (!state.gemini) { setStatus('status', 'חסר מפתח Gemini — פתח את גלגל השיניים', 'err'); openDlg(); return; }
+    if (state.gemini.indexOf('AIza') !== 0) { setStatus('status', 'המפתח לא מתחיל ב-AIza. פתח את גלגל השיניים והדבק אותו מחדש.', 'err'); openDlg(); return; }
     setStatus('status', 'קורא את הפתק…');
     document.getElementById('parse').disabled = true;
-    callGemini(true).catch(function (e) {
-      if (e && e.status === 400) return callGemini(false);
+    callGemini('schema').catch(function (e) {
+      if (e && e.status === 400) return callGemini('plain');
       throw e;
     }).then(function (body) {
       var parts = (((body.candidates || [])[0] || {}).content || {}).parts || [];
@@ -326,7 +341,9 @@
       applyParsed(parsed);
       setStatus('status', 'נמצאו ' + state.lines.length + ' שורות. בדוק ותקן לפני השמירה.', 'ok');
     }).catch(function (e) {
-      setStatus('status', 'הפענוח נכשל: ' + (e.message || e), 'err');
+      var msg = (e && e.message) || String(e);
+      if (/failed to fetch|networkerror|load failed/i.test(msg)) msg = 'הטלפון לא הצליח להתחבר ל-Gemini. רענן את הדף ונסה שוב.';
+      setStatus('status', 'הפענוח נכשל: ' + msg, 'err');
     }).then(function () { document.getElementById('parse').disabled = false; });
   });
 
@@ -545,7 +562,7 @@
   document.getElementById('settings').addEventListener('click', openDlg);
   document.getElementById('cfg-close').addEventListener('click', function () { if (dlg.close) dlg.close(); });
   document.getElementById('cfg-save').addEventListener('click', function () {
-    state.gemini = document.getElementById('gkey').value.trim();
+    state.gemini = cleanKey(document.getElementById('gkey').value);
     state.model = document.getElementById('gmodel').value.trim() || DATA.defaultModel;
     state.token = document.getElementById('gtoken').value.trim();
     state.attach = document.getElementById('gphoto').checked;

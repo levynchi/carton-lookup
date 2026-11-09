@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-09 09:25:03",
+ "updated": "2026-11-09 09:43:45",
  "customers": [
   {
    "id": 1,
@@ -308,7 +308,7 @@
      "quantity": 6,
      "packaging": "שלישיות",
      "total_units": 18,
-     "done": false
+     "done": true
     },
     {
      "product": "בגד גוף מעטפת",
@@ -395,7 +395,7 @@
    "status": "פתוח",
    "notes": "",
    "created_at": "2025-11-30 07:21:34",
-   "updated_at": "2025-11-30 07:21:34"
+   "updated_at": "2026-11-09 09:43:43"
   }
  ]
 }

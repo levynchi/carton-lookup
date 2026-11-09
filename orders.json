@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-09 10:52:28",
+ "updated": "2026-11-09 10:52:59",
  "customers": [
   {
    "id": 1,
@@ -444,16 +444,6 @@
      "done": false
     },
     {
-     "product": "בגד גוף מעטפת",
-     "size": "3-6",
-     "fabric_type": "פלנל",
-     "fabric_color": "לבן",
-     "quantity": 100,
-     "packaging": "יחידים",
-     "total_units": 100,
-     "done": false
-    },
-    {
      "product": "בגד גוף ש.א",
      "size": "12-18",
      "fabric_type": "פלנל",
@@ -574,11 +564,11 @@
      "done": false
     }
    ],
-   "total_items": 17,
+   "total_items": 16,
    "status": "פתוח",
    "notes": "",
    "created_at": "2026-11-09 10:19:33",
-   "updated_at": "2026-11-09 10:52:26"
+   "updated_at": "2026-11-09 10:52:57"
   }
  ]
 }

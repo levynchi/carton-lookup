@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-09 10:54:23",
+ "updated": "2026-11-09 10:55:20",
  "customers": [
   {
    "id": 1,
@@ -559,8 +559,8 @@
      "fabric_type": "פלנל",
      "fabric_color": "לבן",
      "quantity": 100,
-     "packaging": "שלישיות",
-     "total_units": 300,
+     "packaging": "יחידים",
+     "total_units": 100,
      "done": false
     },
     {
@@ -572,13 +572,23 @@
      "packaging": "יחידים",
      "total_units": 300,
      "done": false
+    },
+    {
+     "product": "בגד גוף ש.א",
+     "size": "0-3",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 100,
+     "packaging": "יחידים",
+     "total_units": 100,
+     "done": false
     }
    ],
-   "total_items": 17,
+   "total_items": 18,
    "status": "פתוח",
    "notes": "",
    "created_at": "2026-11-09 10:19:33",
-   "updated_at": "2026-11-09 10:54:21"
+   "updated_at": "2026-11-09 10:55:18"
   }
  ]
 }

@@ -76,6 +76,22 @@
   .line.done .chk { background:var(--ok); border-color:var(--ok); }
   .sz { font-size:22px; font-weight:900; direction:ltr; text-align:right; line-height:1; }
   .sub { font-size:12px; color:var(--muted); margin-top:2px; }
+  .sack { display:inline-flex; align-items:center; gap:4px; margin-top:4px; font-size:12px; color:var(--muted); font-weight:700; }
+  .sack input { width:44px; font-size:15px; font-weight:900; text-align:center; padding:3px 2px; border:2px solid #fcd34d; border-radius:8px; background:#fffbeb; color:#92400e; }
+  .sack input:placeholder-shown { background:#fff; border-color:var(--line); }
+  .sackbar { display:flex; align-items:center; justify-content:space-between; gap:8px; background:#fffbeb; border:2px solid #fcd34d; border-radius:14px; padding:8px 12px; margin-bottom:8px; }
+  .sackbar .lbl { font-size:13px; font-weight:800; color:#92400e; }
+  .sackbar .lbl small { display:block; font-weight:600; color:var(--muted); font-size:11px; }
+  .sackbar .ctl { display:flex; align-items:center; gap:6px; }
+  .sackbar .ctl button { width:38px; height:38px; border:none; border-radius:10px; background:#f59e0b; color:#fff; font-size:20px; font-weight:900; cursor:pointer; }
+  .sackbar .ctl input { width:56px; height:38px; font-size:20px; font-weight:900; text-align:center; border:2px solid #fcd34d; border-radius:10px; background:#fff; color:#92400e; }
+  .sacks { background:var(--card); border:2px solid var(--line); border-radius:16px; margin-bottom:8px; overflow:hidden; }
+  .sacks h3 { margin:0; padding:9px 12px; font-size:15px; background:#f9fafb; border-bottom:1px solid var(--line); }
+  .sacks .s { display:flex; gap:10px; padding:8px 12px; border-top:1px solid var(--line); align-items:flex-start; }
+  .sacks .s:first-of-type { border-top:none; }
+  .sacks .s b { min-width:48px; font-size:16px; color:#92400e; background:#fffbeb; border:1px solid #fcd34d; border-radius:8px; text-align:center; padding:4px 6px; }
+  .sacks .s span { font-size:13px; line-height:1.5; }
+  .sacks .s.none b { color:var(--muted); background:#f3f4f6; border-color:var(--line); }
   .qty { display:flex; align-items:center; gap:4px; }
   .qty input { width:52px; font-size:18px; font-weight:800; text-align:center; padding:6px 2px; border:2px solid var(--line); border-radius:10px; }
   .qty select { font-size:12px; padding:6px 4px; border:2px solid var(--line); border-radius:10px; background:#fff; max-width:84px; }
@@ -141,7 +157,16 @@
   <section id="v-order" class="hidden">
     <button class="back" id="back1" type="button">‹ כל ההזמנות</button>
     <div class="ohead" id="ohead"></div>
+    <div class="sackbar" id="sackbar">
+      <div class="lbl">שק פעיל<small>סימון ✓ משייך את השורה לשק הזה</small></div>
+      <div class="ctl">
+        <button type="button" id="sack-minus" aria-label="שק קודם">−</button>
+        <input id="sack-active" type="number" inputmode="numeric" min="1" placeholder="—" aria-label="מספר שק פעיל">
+        <button type="button" id="sack-plus" aria-label="שק הבא">+</button>
+      </div>
+    </div>
     <div id="groups"></div>
+    <div id="sacks"></div>
     <button class="addline" id="addline" type="button">+ הוסף שורה להזמנה</button>
     <div class="acts" id="oacts"></div>
   </section>
@@ -208,23 +233,24 @@
   </div>
 </dialog>
 
-<script id="data" type="application/json">{"repo":"levynchi/carton-lookup","branch":"main","file":"orders.json","statusOpen":"פתוח","statusClosed":"סגור","packaging":{"חמישיות":5,"שלישיות":3,"יחידים":1},"customers":[{"id":1,"name":"מאג'דה"},{"id":2,"name":"רמלה דרים קידס"},{"id":3,"name":"קניון עפולה"}],"products":[{"name":"בגד גוף ש.א","freq":11,"sizes":["0-3","3-6","6-12","12-18","18-24","24-30"],"types":["טריקו","פלנל"],"defType":"פלנל","colors":["לבן"]},{"name":"רגליות","freq":10,"sizes":["0-3","3-6","6-12","12-18","18-24","24-30","פגים"],"types":["טריקו","פלנל"],"defType":"פלנל","colors":["אפור","ורוד","כחול","לבן","מודפס","שמנת"]},{"name":"גטקס","freq":6,"sizes":["3-6","4","6","6-12","12-18","18-24","24-30"],"types":["פלנל"],"defType":"פלנל","colors":["לבן"]},{"name":"בגד גוף גופייה","freq":4,"sizes":["0-3","3-6","6-12","12-18","18-24","24-30"],"types":["טריקו"],"defType":"טריקו","colors":["ורוד","כחול","לבן","מודפס"]},{"name":"בגד גוף מעטפת","freq":3,"sizes":["0-3","פגים"],"types":["טריקו","פלנל"],"defType":"פלנל","colors":["אפור","ורוד","כחול","לבן","מודפס","שמנת"]},{"name":"אוברול","freq":0,"sizes":["0-3","3-6","6-12","12-18"],"types":["טריקו","פלנל"],"defType":"טריקו","colors":["לבן","מודפס"]},{"name":"אוברול ארוך סואגי","freq":0,"sizes":["0-3","3-6","6-12","12-18"],"types":["פלנל"],"defType":"פלנל","colors":["לבן"]},{"name":"בגד גוף מעטפת בייבי לייס","freq":0,"sizes":["0-3"],"types":["טריקו"],"defType":"טריקו","colors":["לבן"]},{"name":"בגד גוף ש.ק","freq":0,"sizes":["0-3","3-6","6-12","12-18","18-24","24-30"],"types":["טריקו"],"defType":"טריקו","colors":["לבן"]},{"name":"גופיות סבא","freq":0,"sizes":["2","3","4","5","6","8","10","12","14","16","S","M","L","XL","XXL"],"types":["טריקו"],"defType":"טריקו","colors":["לבן"]},{"name":"גופיות פלנל","freq":0,"sizes":["2","4","6","8","10","12","14","16","S","M","L","XL","XXL"],"types":["פלנל"],"defType":"פלנל","colors":["לבן"]},{"name":"חולצה קצרה מולי","freq":0,"sizes":["2","4","6","18-24"],"types":["טריקו"],"defType":"טריקו","colors":["ורוד"]},{"name":"חולצת בייבי","freq":0,"sizes":["3-6","6-12","12-18","18-24","24-30"],"types":["פלנל"],"defType":"פלנל","colors":["לבן"]},{"name":"סט בייבי בייסיק רגליות + בגד גוף ארוך","freq":0,"sizes":["0-3","3-6","6-12"],"types":["כללי","פלנל"],"defType":"כללי","colors":["לבן","צבעוני"]},{"name":"סט גטקס + בייבי אמריקאי שרוול ארוך","freq":0,"sizes":["12-18","18-24","24-30"],"types":["כללי","פלנל"],"defType":"כללי","colors":["לבן","צבעוני"]},{"name":"סט מולי","freq":0,"sizes":["0-3"],"types":["טריקו"],"defType":"טריקו","colors":[]},{"name":"סט פיגמה בייבי בייסיק","freq":0,"sizes":[],"types":[],"defType":"","colors":["ורוד","תכלת"]},{"name":"סט קיץ בייבי בייסיק בנים","freq":0,"sizes":["2","3","4"],"types":["ופל"],"defType":"ופל","colors":[]}],"sizes":["0-3","2","3","3-6","4","5","6","6-12","8","10","12","12-18","14","16","18-24","24-30","80X60 ס\"מ","S","M","L","XL","XXL","פגים"],"colors":["אפור","ורוד","כחול","לבן","מודפס","צבעוני","שמנת","תכלת"],"types":["ופל","טריקו","כללי","פלנל"],"defaultColor":"לבן","defaultPackaging":"שלישיות"}</script>
+<script id="data" type="application/json">{"repo":"levynchi/carton-lookup","branch":"main","file":"orders.json","statusOpen":"פתוח","statusClosed":"סגור","packaging":{"חמישיות":5,"שלישיות":3,"יחידים":1},"customers":[{"id":1,"name":"מאג'דה"},{"id":2,"name":"רמלה דרים קידס"},{"id":3,"name":"קניון עפולה"}],"products":[{"name":"בגד גוף ש.א","freq":15,"sizes":["0-3","3-6","6-12","12-18","18-24","24-30"],"types":["טריקו","פלנל"],"defType":"פלנל","colors":["לבן"]},{"name":"רגליות","freq":12,"sizes":["0-3","3-6","6-12","12-18","18-24","24-30","פגים"],"types":["טריקו","פלנל"],"defType":"פלנל","colors":["אפור","ורוד","כחול","לבן","מודפס","שמנת"]},{"name":"גטקס","freq":11,"sizes":["3-6","4","6","6-12","12-18","18-24","24-30"],"types":["פלנל"],"defType":"פלנל","colors":["לבן"]},{"name":"בגד גוף גופייה","freq":5,"sizes":["0-3","3-6","6-12","12-18","18-24","24-30"],"types":["טריקו"],"defType":"טריקו","colors":["ורוד","כחול","לבן","מודפס"]},{"name":"בגד גוף מעטפת","freq":5,"sizes":["0-3","פגים"],"types":["טריקו","פלנל"],"defType":"פלנל","colors":["אפור","ורוד","כחול","לבן","מודפס","שמנת"]},{"name":"חולצת בייבי","freq":3,"sizes":["3-6","6-12","12-18","18-24","24-30"],"types":["פלנל"],"defType":"פלנל","colors":["לבן"]},{"name":"אוברול","freq":0,"sizes":["0-3","3-6","6-12","12-18"],"types":["טריקו","פלנל"],"defType":"טריקו","colors":["לבן","מודפס"]},{"name":"אוברול ארוך סואגי","freq":0,"sizes":["0-3","3-6","6-12","12-18"],"types":["פלנל"],"defType":"פלנל","colors":["לבן"]},{"name":"בגד גוף מעטפת בייבי לייס","freq":0,"sizes":["0-3"],"types":["טריקו"],"defType":"טריקו","colors":["לבן"]},{"name":"בגד גוף ש.ק","freq":0,"sizes":["0-3","3-6","6-12","12-18","18-24","24-30"],"types":["טריקו"],"defType":"טריקו","colors":["לבן"]},{"name":"גופיות סבא","freq":0,"sizes":["2","3","4","5","6","8","10","12","14","16","S","M","L","XL","XXL"],"types":["טריקו"],"defType":"טריקו","colors":["לבן"]},{"name":"גופיות פלנל","freq":0,"sizes":["2","4","6","8","10","12","14","16","S","M","L","XL","XXL"],"types":["פלנל"],"defType":"פלנל","colors":["לבן"]},{"name":"חולצה קצרה מולי","freq":0,"sizes":["2","4","6","18-24"],"types":["טריקו"],"defType":"טריקו","colors":["ורוד"]},{"name":"סט בייבי בייסיק רגליות + בגד גוף ארוך","freq":0,"sizes":["0-3","3-6","6-12"],"types":["כללי","פלנל"],"defType":"כללי","colors":["לבן","צבעוני"]},{"name":"סט גטקס + בייבי אמריקאי שרוול ארוך","freq":0,"sizes":["12-18","18-24","24-30"],"types":["כללי","פלנל"],"defType":"כללי","colors":["לבן","צבעוני"]},{"name":"סט מולי","freq":0,"sizes":["0-3"],"types":["טריקו"],"defType":"טריקו","colors":[]},{"name":"סט פיגמה בייבי בייסיק","freq":0,"sizes":[],"types":[],"defType":"","colors":["ורוד","תכלת"]},{"name":"סט קיץ בייבי בייסיק בנים","freq":0,"sizes":["2","3","4"],"types":["ופל"],"defType":"ופל","colors":[]}],"sizes":["0-3","2","3","3-6","4","5","6","6-12","8","10","12","12-18","14","16","18-24","24-30","80X60 ס\"מ","S","M","L","XL","XXL","פגים"],"colors":["אפור","ורוד","כחול","לבן","מודפס","צבעוני","שמנת","תכלת"],"types":["ופל","טריקו","כללי","פלנל"],"defaultColor":"לבן","defaultPackaging":"שלישיות"}</script>
 <script>
 (function () {
   var DATA = JSON.parse(document.getElementById('data').textContent);
   var API = 'https://api.github.com/repos/' + DATA.repo + '/contents/' + DATA.file;
-  var LS = { token: 'omer_gh_token', cache: 'orders_cache', pending: 'orders_pending', filter: 'orders_filter' };
+  var LS = { token: 'omer_gh_token', cache: 'orders_cache', pending: 'orders_pending', filter: 'orders_filter', sack: 'orders_active_sack' };
   var OPEN = DATA.statusOpen, CLOSED = DATA.statusClosed;
 
   var state = {
     orders: [], customers: DATA.customers.slice(), sha: null, pending: {}, token: '',
     filter: 'open', q: '', view: 'list', current: null, syncing: false, lastErr: '', loaded: false,
-    draft: null, builderTarget: null
+    draft: null, builderTarget: null, activeSack: ''
   };
   function lsGet(k, d) { try { var v = localStorage.getItem(k); return v == null ? d : v; } catch (e) { return d; } }
   function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
   state.token = lsGet(LS.token, '');
   state.filter = lsGet(LS.filter, 'open');
+  state.activeSack = lsGet(LS.sack, '');
   try { state.pending = JSON.parse(lsGet(LS.pending, '{}')) || {}; } catch (e) { state.pending = {}; }
   try {
     var c = JSON.parse(lsGet(LS.cache, 'null'));
@@ -245,7 +271,7 @@
     var pack = it.packaging || 'יחידים';
     var q = parseInt(it.quantity, 10) || 0;
     return { product: it.product || '', size: String(it.size || ''), fabric_type: it.fabric_type || '', fabric_color: it.fabric_color || '',
-      quantity: q, packaging: pack, total_units: parseInt(it.total_units, 10) || units(q, pack), done: !!it.done };
+      quantity: q, packaging: pack, total_units: parseInt(it.total_units, 10) || units(q, pack), done: !!it.done, sack: String(it.sack == null ? '' : it.sack).trim() };
   }
   function normOrder(o) {
     o = o || {};
@@ -424,7 +450,7 @@
         '<div class="row"><span class="num">' + esc(o.order_number) + '</span>' +
           '<span><span class="badge ' + (o.status === CLOSED ? 'closed' : 'open') + '">' + esc(o.status) + '</span>' + (pend ? ' <span class="badge pend">ממתין</span>' : '') + '</span></div>' +
         '<div class="cust">' + esc(o.customer) + '</div>' +
-        '<div class="meta">' + fmtDate(o.date) + ' · ' + o.items.length + ' שורות · ' + unitsOf(o).toLocaleString() + ' יח׳' + (o.notes ? ' · ' + esc(o.notes) : '') + '</div>' +
+        '<div class="meta">' + fmtDate(o.date) + ' · ' + o.items.length + ' שורות · ' + unitsOf(o).toLocaleString() + ' יח׳' + (sackSummary(o.items) ? ' · ' + sackSummary(o.items) : '') + (o.notes ? ' · ' + esc(o.notes) : '') + '</div>' +
         '<div class="bar' + (p.pct === 100 ? ' full' : '') + '"><i style="width:' + p.pct + '%"></i></div>' +
         '<div class="prog"><span>הוכנו ' + p.done + ' מתוך ' + p.total + '</span><span>' + p.pct + '%</span></div></div>';
     }).join('');
@@ -446,7 +472,8 @@
           var it = r.it;
           return '<div class="line' + (it.done ? ' done' : '') + '" data-idx="' + r.idx + '">' +
             '<button class="chk" type="button" data-act="done" aria-label="הוכן">' + (it.done ? '✓' : '') + '</button>' +
-            '<div><div class="sz">' + esc(it.size) + '</div><div class="sub">' + esc(it.packaging) + ' × ' + it.quantity + ' = ' + it.total_units + ' יח׳</div></div>' +
+            '<div><div class="sz">' + esc(it.size) + '</div><div class="sub">' + esc(it.packaging) + ' × ' + it.quantity + ' = ' + it.total_units + ' יח׳</div>' +
+              (editable ? '<label class="sack">שק <input type="text" inputmode="numeric" value="' + esc(it.sack) + '" placeholder="—" data-act="sack" aria-label="מספר שק"></label>' : '') + '</div>' +
             '<div class="qty">' +
               '<input type="number" inputmode="numeric" min="0" value="' + it.quantity + '" data-act="qty" aria-label="כמות">' +
               '<select data-act="pack" aria-label="אריזה">' + packOpts(it.packaging) + '</select>' +
@@ -454,6 +481,26 @@
             '</div></div>';
         }).join('') + '</div>';
     }).join('');
+  }
+  function sackKey(s) { var n = parseInt(s, 10); return isNaN(n) ? [1, 0, String(s)] : [0, n, '']; }
+  function sacksHtml(items) {
+    var bySack = {}, none = [];
+    items.forEach(function (it) {
+      var label = esc(it.product) + ' ' + esc(it.size) + ' ×' + it.quantity;
+      if (it.sack) { (bySack[it.sack] = bySack[it.sack] || []).push(label); } else none.push(label);
+    });
+    var keys = Object.keys(bySack).sort(function (a, b) { var ka = sackKey(a), kb = sackKey(b); return ka[0] - kb[0] || ka[1] - kb[1] || (ka[2] < kb[2] ? -1 : ka[2] > kb[2] ? 1 : 0); });
+    if (!keys.length) return '';
+    var html = '<div class="sacks"><h3>שקים · ' + keys.length + '</h3>' + keys.map(function (k) {
+      return '<div class="s"><b>' + esc(k) + '</b><span>' + bySack[k].join(' · ') + '</span></div>';
+    }).join('');
+    if (none.length) html += '<div class="s none"><b>—</b><span>' + none.length + ' שורות עדיין בלי שק</span></div>';
+    return html + '</div>';
+  }
+  function sackSummary(items) {
+    var set = {}; items.forEach(function (it) { if (it.sack) set[it.sack] = 1; });
+    var n = Object.keys(set).length;
+    return n ? (n + ' שקים') : '';
   }
   function renderOrder() {
     var o = state.current != null ? findOrder(state.current) : null;
@@ -467,6 +514,8 @@
       '<div class="prog"><span>הוכנו ' + p.done + ' מתוך ' + p.total + '</span><span>' + p.pct + '%</span></div>' +
       '<textarea id="o-notes" placeholder="הערות">' + esc(o.notes) + '</textarea>';
     document.getElementById('groups').innerHTML = groupsHtml(o.items, true);
+    document.getElementById('sacks').innerHTML = sacksHtml(o.items);
+    document.getElementById('sack-active').value = state.activeSack;
     var closed = o.status === CLOSED;
     document.getElementById('oacts').innerHTML =
       '<button class="all-btn" type="button" data-act="all"' + (p.done === p.total && p.total ? ' disabled' : '') + '>סמן הכל כהוכן</button>' +
@@ -507,7 +556,12 @@
     var line = e.target.closest('.line[data-idx]'); if (!line) return false;
     var idx = parseInt(line.getAttribute('data-idx'), 10), it = items[idx]; if (!it) return false;
     var act = el.getAttribute('data-act');
-    if (e.type === 'click' && act === 'done') { it.done = !it.done; onChange(); return true; }
+    if (e.type === 'click' && act === 'done') {
+      it.done = !it.done;
+      if (it.done && !it.sack && state.activeSack) it.sack = state.activeSack;
+      onChange(); return true;
+    }
+    if (e.type === 'change' && act === 'sack') { it.sack = String(el.value || '').trim(); onChange(); return true; }
     if (e.type === 'click' && act === 'del') { if (!confirm('למחוק את השורה ' + it.product + ' ' + it.size + '?')) return true; items.splice(idx, 1); onChange(); return true; }
     if (e.type === 'change' && act === 'qty') { it.quantity = Math.max(0, parseInt(el.value, 10) || 0); it.total_units = units(it.quantity, it.packaging); onChange(); return true; }
     if (e.type === 'change' && act === 'pack') { it.packaging = el.value; it.total_units = units(it.quantity, it.packaging); onChange(); return true; }
@@ -530,11 +584,21 @@
     var b = e.target.closest('button[data-act]'); if (!b) return;
     var o = findOrder(state.current); if (!o) return;
     var act = b.getAttribute('data-act');
-    if (act === 'all') { o.items.forEach(function (i) { i.done = true; }); touch(o); }
+    if (act === 'all') { o.items.forEach(function (i) { i.done = true; if (!i.sack && state.activeSack) i.sack = state.activeSack; }); touch(o); }
     else if (act === 'close') { if (!confirm('לסגור את הזמנה ' + o.order_number + '?')) return; o.status = CLOSED; touch(o); }
     else if (act === 'reopen') { o.status = OPEN; touch(o); }
   });
   document.getElementById('addline').addEventListener('click', function () { openBuilder('order'); });
+  // active sack: lines marked ✓ get this sack number when they have none yet
+  function setActiveSack(v) {
+    var n = parseInt(v, 10);
+    state.activeSack = isNaN(n) || n < 1 ? '' : String(n);
+    lsSet(LS.sack, state.activeSack);
+    document.getElementById('sack-active').value = state.activeSack;
+  }
+  document.getElementById('sack-active').addEventListener('change', function (e) { setActiveSack(e.target.value); });
+  document.getElementById('sack-plus').addEventListener('click', function () { setActiveSack((parseInt(state.activeSack, 10) || 0) + 1); });
+  document.getElementById('sack-minus').addEventListener('click', function () { setActiveSack((parseInt(state.activeSack, 10) || 0) - 1); });
 
   // ---------- new order
   function newDraft() {

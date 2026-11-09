@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-09 10:55:20",
+ "updated": "2026-11-09 10:56:04",
  "customers": [
   {
    "id": 1,
@@ -474,16 +474,6 @@
      "done": false
     },
     {
-     "product": "בגד גוף גופייה",
-     "size": "3-6",
-     "fabric_type": "פלנל",
-     "fabric_color": "לבן",
-     "quantity": 100,
-     "packaging": "יחידים",
-     "total_units": 100,
-     "done": false
-    },
-    {
      "product": "רגליות",
      "size": "6-12",
      "fabric_type": "פלנל",
@@ -584,11 +574,11 @@
      "done": false
     }
    ],
-   "total_items": 18,
+   "total_items": 17,
    "status": "פתוח",
    "notes": "",
    "created_at": "2026-11-09 10:19:33",
-   "updated_at": "2026-11-09 10:55:18"
+   "updated_at": "2026-11-09 10:56:02"
   }
  ]
 }

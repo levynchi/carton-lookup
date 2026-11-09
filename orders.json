@@ -1,0 +1,401 @@
+{
+ "updated": "2026-11-09 09:25:03",
+ "customers": [
+  {
+   "id": 1,
+   "name": "מאג'דה",
+   "phone": "0545248393"
+  },
+  {
+   "id": 2,
+   "name": "רמלה דרים קידס",
+   "phone": ""
+  },
+  {
+   "id": 3,
+   "name": "קניון עפולה",
+   "phone": "0505322893"
+  }
+ ],
+ "orders": [
+  {
+   "id": 1,
+   "order_number": "ORD-0001",
+   "customer": "מאג'דה",
+   "date": "2025-09-14",
+   "items": [
+    {
+     "product": "בגד גוף גופייה",
+     "size": "0-3",
+     "fabric_type": "טריקו",
+     "fabric_color": "לבן",
+     "quantity": 20,
+     "packaging": "שלישיות",
+     "total_units": 60,
+     "done": false
+    },
+    {
+     "product": "בגד גוף גופייה",
+     "size": "6-12",
+     "fabric_type": "טריקו",
+     "fabric_color": "לבן",
+     "quantity": 10,
+     "packaging": "שלישיות",
+     "total_units": 30,
+     "done": false
+    },
+    {
+     "product": "בגד גוף גופייה",
+     "size": "24-30",
+     "fabric_type": "טריקו",
+     "fabric_color": "לבן",
+     "quantity": 10,
+     "packaging": "שלישיות",
+     "total_units": 30,
+     "done": false
+    },
+    {
+     "product": "בגד גוף מעטפת",
+     "size": "0-3",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 15,
+     "packaging": "שלישיות",
+     "total_units": 45,
+     "done": false
+    },
+    {
+     "product": "בגד גוף ש.א",
+     "size": "3-6",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 15,
+     "packaging": "שלישיות",
+     "total_units": 45,
+     "done": false
+    },
+    {
+     "product": "בגד גוף ש.א",
+     "size": "6-12",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 15,
+     "packaging": "שלישיות",
+     "total_units": 45,
+     "done": false
+    },
+    {
+     "product": "בגד גוף ש.א",
+     "size": "12-18",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 15,
+     "packaging": "שלישיות",
+     "total_units": 45,
+     "done": false
+    },
+    {
+     "product": "בגד גוף ש.א",
+     "size": "24-30",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 15,
+     "packaging": "שלישיות",
+     "total_units": 45,
+     "done": false
+    },
+    {
+     "product": "רגליות",
+     "size": "0-3",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 15,
+     "packaging": "שלישיות",
+     "total_units": 45,
+     "done": false
+    },
+    {
+     "product": "רגליות",
+     "size": "3-6",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 15,
+     "packaging": "שלישיות",
+     "total_units": 45,
+     "done": false
+    },
+    {
+     "product": "רגליות",
+     "size": "6-12",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 15,
+     "packaging": "שלישיות",
+     "total_units": 45,
+     "done": false
+    },
+    {
+     "product": "רגליות",
+     "size": "12-18",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 10,
+     "packaging": "שלישיות",
+     "total_units": 30,
+     "done": false
+    },
+    {
+     "product": "גטקס",
+     "size": "18-24",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 10,
+     "packaging": "שלישיות",
+     "total_units": 30,
+     "done": false
+    }
+   ],
+   "total_items": 13,
+   "status": "פתוח",
+   "notes": "ההזמנה הראשונה של החורף",
+   "created_at": "2025-09-14 16:55:43",
+   "updated_at": "2025-09-14 16:55:43"
+  },
+  {
+   "id": 2,
+   "order_number": "ORD-0001",
+   "customer": "רמלה דרים קידס",
+   "date": "2025-09-25",
+   "items": [
+    {
+     "product": "בגד גוף גופייה",
+     "size": "0-3",
+     "fabric_type": "טריקו",
+     "fabric_color": "לבן",
+     "quantity": 6,
+     "packaging": "שלישיות",
+     "total_units": 18,
+     "done": false
+    },
+    {
+     "product": "בגד גוף ש.א",
+     "size": "0-3",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 8,
+     "packaging": "שלישיות",
+     "total_units": 24,
+     "done": false
+    },
+    {
+     "product": "בגד גוף ש.א",
+     "size": "3-6",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 8,
+     "packaging": "שלישיות",
+     "total_units": 24,
+     "done": false
+    },
+    {
+     "product": "בגד גוף ש.א",
+     "size": "24-30",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 8,
+     "packaging": "שלישיות",
+     "total_units": 24,
+     "done": false
+    },
+    {
+     "product": "בגד גוף מעטפת",
+     "size": "0-3",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 8,
+     "packaging": "שלישיות",
+     "total_units": 24,
+     "done": false
+    },
+    {
+     "product": "רגליות",
+     "size": "0-3",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 10,
+     "packaging": "שלישיות",
+     "total_units": 30,
+     "done": false
+    },
+    {
+     "product": "רגליות",
+     "size": "3-6",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 8,
+     "packaging": "שלישיות",
+     "total_units": 24,
+     "done": false
+    },
+    {
+     "product": "רגליות",
+     "size": "12-18",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 6,
+     "packaging": "שלישיות",
+     "total_units": 18,
+     "done": false
+    },
+    {
+     "product": "רגליות",
+     "size": "24-30",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 8,
+     "packaging": "שלישיות",
+     "total_units": 24,
+     "done": false
+    },
+    {
+     "product": "גטקס",
+     "size": "12-18",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 6,
+     "packaging": "שלישיות",
+     "total_units": 18,
+     "done": false
+    },
+    {
+     "product": "גטקס",
+     "size": "18-24",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 6,
+     "packaging": "שלישיות",
+     "total_units": 18,
+     "done": false
+    },
+    {
+     "product": "גטקס",
+     "size": "24-30",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 8,
+     "packaging": "שלישיות",
+     "total_units": 24,
+     "done": false
+    }
+   ],
+   "total_items": 12,
+   "status": "פתוח",
+   "notes": "הזמנה ראשונה חורף אבא רשם אותה",
+   "created_at": "2025-09-25 08:19:17",
+   "updated_at": "2025-09-25 08:19:17"
+  },
+  {
+   "id": 3,
+   "order_number": "ORD-0001",
+   "customer": "מאג'דה",
+   "date": "2025-11-30",
+   "items": [
+    {
+     "product": "בגד גוף ש.א",
+     "size": "0-3",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 6,
+     "packaging": "שלישיות",
+     "total_units": 18,
+     "done": false
+    },
+    {
+     "product": "בגד גוף מעטפת",
+     "size": "0-3",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 10,
+     "packaging": "שלישיות",
+     "total_units": 30,
+     "done": false
+    },
+    {
+     "product": "רגליות",
+     "size": "0-3",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 10,
+     "packaging": "שלישיות",
+     "total_units": 30,
+     "done": false
+    },
+    {
+     "product": "רגליות",
+     "size": "3-6",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 15,
+     "packaging": "שלישיות",
+     "total_units": 45,
+     "done": false
+    },
+    {
+     "product": "בגד גוף ש.א",
+     "size": "3-6",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 18,
+     "packaging": "שלישיות",
+     "total_units": 54,
+     "done": false
+    },
+    {
+     "product": "בגד גוף ש.א",
+     "size": "12-18",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 10,
+     "packaging": "שלישיות",
+     "total_units": 30,
+     "done": false
+    },
+    {
+     "product": "בגד גוף ש.א",
+     "size": "18-24",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 15,
+     "packaging": "שלישיות",
+     "total_units": 45,
+     "done": false
+    },
+    {
+     "product": "גטקס",
+     "size": "12-18",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 6,
+     "packaging": "שלישיות",
+     "total_units": 18,
+     "done": false
+    },
+    {
+     "product": "גטקס",
+     "size": "18-24",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 6,
+     "packaging": "שלישיות",
+     "total_units": 18,
+     "done": false
+    }
+   ],
+   "total_items": 9,
+   "status": "פתוח",
+   "notes": "",
+   "created_at": "2025-11-30 07:21:34",
+   "updated_at": "2025-11-30 07:21:34"
+  }
+ ]
+}

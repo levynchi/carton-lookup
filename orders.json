@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-09 13:24:04",
+ "updated": "2026-11-09 13:29:23",
  "customers": [
   {
    "id": 1,
@@ -467,7 +467,7 @@
      "quantity": 50,
      "packaging": "יחידים",
      "total_units": 50,
-     "done": false,
+     "done": true,
      "sack": "5"
     },
     {
@@ -629,7 +629,7 @@
    "status": "פתוח",
    "notes": "",
    "created_at": "2026-11-09 10:19:33",
-   "updated_at": "2026-11-09 13:24:03"
+   "updated_at": "2026-11-09 13:29:21"
   }
  ]
 }

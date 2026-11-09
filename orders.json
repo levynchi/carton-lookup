@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-09 11:23:59",
+ "updated": "2026-11-09 11:35:40",
  "customers": [
   {
    "id": 1,
@@ -451,7 +451,7 @@
      "quantity": 300,
      "packaging": "יחידים",
      "total_units": 300,
-     "done": false
+     "done": true
     },
     {
      "product": "בגד גוף ש.א",
@@ -588,7 +588,7 @@
    "status": "פתוח",
    "notes": "",
    "created_at": "2026-11-09 10:19:33",
-   "updated_at": "2026-11-09 11:23:57"
+   "updated_at": "2026-11-09 11:35:39"
   }
  ]
 }

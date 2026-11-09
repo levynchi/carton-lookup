@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-09 10:53:57",
+ "updated": "2026-11-09 10:53:59",
  "customers": [
   {
    "id": 1,
@@ -548,9 +548,9 @@
      "size": "3-6",
      "fabric_type": "פלנל",
      "fabric_color": "לבן",
-     "quantity": 0,
+     "quantity": 10,
      "packaging": "שלישיות",
-     "total_units": 0,
+     "total_units": 30,
      "done": false
     },
     {
@@ -578,7 +578,7 @@
    "status": "פתוח",
    "notes": "",
    "created_at": "2026-11-09 10:19:33",
-   "updated_at": "2026-11-09 10:53:56"
+   "updated_at": "2026-11-09 10:53:59"
   }
  ]
 }

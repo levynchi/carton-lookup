@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-16 11:19:23",
+ "updated": "2026-11-16 11:19:37",
  "customers": [
   {
    "id": 1,
@@ -766,7 +766,7 @@
      "quantity": 5,
      "packaging": "שלישיות",
      "total_units": 15,
-     "done": false,
+     "done": true,
      "sack": ""
     },
     {
@@ -818,7 +818,7 @@
    "status": "פתוח",
    "notes": "",
    "created_at": "2026-11-16 09:20:03",
-   "updated_at": "2026-11-16 11:19:21"
+   "updated_at": "2026-11-16 11:19:35"
   }
  ]
 }

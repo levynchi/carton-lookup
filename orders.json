@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-09 13:38:29",
+ "updated": "2026-11-16 09:20:03",
  "customers": [
   {
    "id": 1,
@@ -630,6 +630,195 @@
    "notes": "",
    "created_at": "2026-11-09 10:19:33",
    "updated_at": "2026-11-09 13:38:28"
+  },
+  {
+   "id": 5,
+   "order_number": "ORD-20261115-00008",
+   "customer": "טוילנד",
+   "date": "2026-11-15",
+   "items": [
+    {
+     "product": "בגד גוף ש.א",
+     "size": "18-24",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 2,
+     "packaging": "שלישיות",
+     "total_units": 6,
+     "done": false,
+     "sack": ""
+    },
+    {
+     "product": "בגד גוף ש.א",
+     "size": "12-18",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 2,
+     "packaging": "שלישיות",
+     "total_units": 6,
+     "done": false,
+     "sack": ""
+    },
+    {
+     "product": "רגליות",
+     "size": "6-12",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 3,
+     "packaging": "שלישיות",
+     "total_units": 9,
+     "done": false,
+     "sack": ""
+    },
+    {
+     "product": "בגד גוף ש.א",
+     "size": "6-12",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 2,
+     "packaging": "שלישיות",
+     "total_units": 6,
+     "done": false,
+     "sack": ""
+    },
+    {
+     "product": "בגד גוף ש.א",
+     "size": "3-6",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 5,
+     "packaging": "שלישיות",
+     "total_units": 15,
+     "done": false,
+     "sack": ""
+    },
+    {
+     "product": "חולצות פלנל שרוול ארוך",
+     "size": "8",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 3,
+     "packaging": "שלישיות",
+     "total_units": 9,
+     "done": false,
+     "sack": ""
+    },
+    {
+     "product": "חולצות פלנל שרוול ארוך",
+     "size": "6",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 8,
+     "packaging": "שלישיות",
+     "total_units": 24,
+     "done": false,
+     "sack": ""
+    },
+    {
+     "product": "חולצות פלנל שרוול ארוך",
+     "size": "4",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 10,
+     "packaging": "שלישיות",
+     "total_units": 30,
+     "done": false,
+     "sack": ""
+    },
+    {
+     "product": "חולצות פלנל שרוול ארוך",
+     "size": "2",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 3,
+     "packaging": "שלישיות",
+     "total_units": 9,
+     "done": false,
+     "sack": ""
+    },
+    {
+     "product": "רגליות",
+     "size": "3-6",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 3,
+     "packaging": "שלישיות",
+     "total_units": 9,
+     "done": false,
+     "sack": ""
+    },
+    {
+     "product": "בגד גוף ש.א",
+     "size": "0-3",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 5,
+     "packaging": "שלישיות",
+     "total_units": 15,
+     "done": false,
+     "sack": ""
+    },
+    {
+     "product": "בגד גוף מעטפת",
+     "size": "0-3",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 5,
+     "packaging": "שלישיות",
+     "total_units": 15,
+     "done": false,
+     "sack": ""
+    },
+    {
+     "product": "רגליות",
+     "size": "0-3",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 5,
+     "packaging": "שלישיות",
+     "total_units": 15,
+     "done": false,
+     "sack": ""
+    },
+    {
+     "product": "גטקס",
+     "size": "24-30",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 3,
+     "packaging": "שלישיות",
+     "total_units": 9,
+     "done": false,
+     "sack": ""
+    },
+    {
+     "product": "גטקס",
+     "size": "18-24",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 3,
+     "packaging": "שלישיות",
+     "total_units": 9,
+     "done": false,
+     "sack": ""
+    },
+    {
+     "product": "גטקס",
+     "size": "12-18",
+     "fabric_type": "פלנל",
+     "fabric_color": "לבן",
+     "quantity": 3,
+     "packaging": "שלישיות",
+     "total_units": 9,
+     "done": false,
+     "sack": ""
+    }
+   ],
+   "total_items": 16,
+   "status": "פתוח",
+   "notes": "",
+   "created_at": "2026-11-16 09:20:03",
+   "updated_at": "2026-11-16 09:20:03"
   }
  ]
 }

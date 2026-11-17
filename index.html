@@ -24,10 +24,12 @@
   html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text);
     font-family: -apple-system, "Segoe UI", Roboto, "Heebo", Arial, sans-serif; }
   body { min-height: 100vh; padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left); }
-  header { background: #1f2937; color: #fff; padding: 8px 14px 7px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  /* on a narrow phone the buttons move to a row of their own instead of squeezing the title */
+  header { background: #1f2937; color: #fff; padding: 8px 14px 7px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 8px; }
+  header .ttl { flex: 1 1 auto; }
   header .ttl h1 { margin: 0; font-size: 15px; font-weight: 700; }
   header .ttl p { margin: 2px 0 0; font-size: 11px; color: #d1d5db; }
-  header .tools { display: flex; gap: 6px; }
+  header .tools { display: flex; gap: 6px; align-items: center; margin-inline-start: auto; }
   header button { background: #374151; color: #fff; border: none; border-radius: 10px; width: 38px; height: 38px; font-size: 18px; cursor: pointer; }
   header a.navlink { background: #374151; color: #fff; text-decoration: none; border-radius: 10px; padding: 8px 10px; font-size: 13px; font-weight: 800; }
   header button.alert { background: var(--warn); }
@@ -155,6 +157,7 @@
   <div class="tools">
     <a class="navlink" href="orders.html">הזמנות</a>
     <a class="navlink" href="intake.html">תעודה</a>
+    <a class="navlink" href="https://web-production-a017b.up.railway.app/share/">מסמכים</a>
     <button id="refresh" type="button" aria-label="רענן">↻</button>
     <button id="settings" type="button" aria-label="הגדרות">⚙</button>
   </div>
